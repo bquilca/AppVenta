@@ -1,0 +1,251 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:paddingRight="5px" >
+
+
+
+
+            <Switch
+                    android:text="Es Cliente Referencial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="viewEnd"
+                    android:textOn="@string/menu_share"
+                    android:id="@+id/switchClienteReferencial"
+            />
+
+
+            <RadioGroup
+                    android:id="@+id/rdgGroupSeccionCliente"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <Button
+                        android:text="Buscar Cliente"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@android:drawable/ic_menu_search"
+                        android:gravity="left|center_vertical"
+                        android:textAllCaps="false"
+                        android:id="@+id/btnBuscarCliente"/>
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:text="Documento"
+                        android:ems="10"
+                        android:id="@+id/labelDocumento"
+                />
+
+                <TextView
+                        android:id="@+id/txtDocumento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.EditText"
+                />
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:text="Nombre de Cliente"
+                        android:ems="10"
+                        android:id="@+id/labelNombreCliente"
+                />
+
+                <TextView
+                        android:id="@+id/txtNombreCliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.EditText"
+                />
+
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:text="Tipo de cliente"
+                        android:ems="10"
+                        android:id="@+id/labelTipoCliente"
+                />
+
+                <TextView
+                        android:id="@+id/txtTipoCliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.EditText"
+                />
+
+            </RadioGroup>
+
+           <RadioGroup
+                   android:id="@+id/rdgGroupSeccionCredito"
+                   android:visibility="visible"
+                   android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+               <CheckBox
+                       android:text="Crédito"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/checkBoxCredito"
+               />
+
+
+            <TableLayout android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+                <TableRow>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:textStyle="bold"
+                            android:text="Linea de Credito Actual"
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:textStyle="bold"
+                            android:text=" : "
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:text=""
+                            android:id="@+id/labelLineaCredito"
+                    />
+
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:textStyle="bold"
+                            android:text="Monto de Deuda"
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:textStyle="bold"
+                            android:text=" : "
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:text=""
+                            android:id="@+id/labelMontoDeuda"
+                    />
+
+                </TableRow>
+
+
+                <TableRow>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"                            android:visibility="visible"
+                            android:textStyle="bold"
+                            android:text="Dias de crédito"
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            android:text=" : "
+                    />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:visibility="visible"
+                            android:text=""
+                            android:id="@+id/labelDiasCredito"
+                    />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            android:text="Fecha de Vencimiento"
+                            />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            android:text=" : "
+                            />
+
+                    <TextView
+                            android:id="@+id/labelFechaVencimiento"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:visibility="visible"
+                            android:text=""
+                            />
+                </TableRow>
+            </TableLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+           </RadioGroup>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </ScrollView>
+
+
+</LinearLayout>

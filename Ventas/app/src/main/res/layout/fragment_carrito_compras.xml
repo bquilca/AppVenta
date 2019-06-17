@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".ui.Fragment.fragment_carrito_compras">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" tools:ignore="MissingConstraints">
+
+
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:paddingRight="5px"
+    >
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Cliente"
+                android:ems="10"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/txtClienteCarrito"
+                style="@style/Widget.AppCompat.EditText"
+        />
+
+        <TableRow
+                android:id="@+id/Cabecera1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            <TextView
+                    android:text="Productos:"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            />
+        </TableRow>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewItemCarrito"
+                android:layout_width="match_parent"
+                android:focusable="true"
+                android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:textStyle="bold"
+                android:text=""
+        />
+
+
+        <TableLayout
+                android:layout_width="match_parent"
+                     android:layout_height="match_parent">
+
+            <TableRow>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Sub Total :"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="textEnd"
+                        android:id="@+id/txtSubtTotalCarrito"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text=""
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Afecto : "
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/txtAfectoCarrito"
+                        android:textAlignment="textEnd"
+                />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Total Exonerado :"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/txtTotalExoneradoCarrito"
+                        android:textAlignment="textEnd"
+                />
+
+                <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text=""
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="IGV :"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/txtIgvCarrito"
+                        android:textAlignment="textEnd"
+                />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Descuento :"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/txtDescuentoCarrito"
+                        android:textAlignment="textEnd"
+                />
+
+                <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text=""
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="TOTAL :"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/txtTotalCarrito"
+                        android:textAlignment="textEnd"
+                />
+
+            </TableRow>
+        </TableLayout>
+
+        <Button
+                android:text="Grabar Pedido"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@android:drawable/ic_menu_save"
+
+                android:gravity="center|center_vertical"
+                android:textAllCaps="false"
+                android:id="@+id/btnGrabar" style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

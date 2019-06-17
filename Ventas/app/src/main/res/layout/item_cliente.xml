@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_margin="@dimen/margin_carview_categoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:padding="@dimen/margin_carview_categoria"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/labelNombreClienteBusca"
+                android:text="INDUSTRIA GRAFICA CIMAGRAF S.R.L."
+                android:layout_width="match_parent"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+        <TableLayout android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                        android:id="@+id/labelDocumentoClienteBusca"
+                        android:text="Documento"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:text=" : "
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                <TextView
+                        android:id="@+id/labelNumeroDocumentoClienteBusca"
+                        android:text="10443745521"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                        android:text="Categoria"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:text=" : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:id="@+id/labelTipoClienteBusca"
+                        android:text="TIENDA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                        android:text="Linea Crédito"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:text=" : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:id="@+id/labelLineaCreditoBusca"
+                        android:text="100"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

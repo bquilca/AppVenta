@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".ui.Fragment.HomeFragment">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="50px"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/labelBienvenido"
+                android:textStyle="bold"
+                android:text="Hola Benigno!. Bienvenido nuevamente a la App"
+                android:textSize="18sp"/>
+
+        <TableLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Nombre Empresa"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text=" : "
+                />
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelEmpresa"
+                        android:textStyle="normal"
+                        android:text="Distribuidora Peru S.R.L"
+                />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="IMEI"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text=" : "
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelIMEI"
+                        android:textStyle="normal"
+                        android:text="1010101010100101"
+                />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Codigo Vendedor"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text=" : "
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelVendedor"
+                        android:textStyle="normal"
+                        android:text="VENDEDOR1"
+                />
+            </TableRow>
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</FrameLayout>

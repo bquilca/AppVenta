@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".ui.Fragment.fragment_articulos_pedido">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:paddingRight="5px" >
+
+        <Button
+                android:text="Buscar Producto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@android:drawable/ic_menu_search"
+                android:gravity="left|center_vertical"
+                android:textAllCaps="false"
+                android:id="@+id/btnBuscarProducto"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Producto"
+                android:ems="10"
+                android:id="@+id/labelCodigoProducto"
+        />
+
+        <TextView
+                android:id="@+id/txtCodigoProducto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Seleccione un producto"
+                style="@style/Widget.AppCompat.EditText"
+        />
+
+        <TextView
+                android:id="@+id/txtNombreProducto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Seleccione un producto"
+                style="@style/Widget.AppCompat.EditText"
+        />
+
+
+        <RadioGroup
+                android:id="@+id/rdgGroupSeccionUnidad"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:text="Seleccione Unidad"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@android:drawable/ic_menu_set_as"
+                    android:gravity="left|center_vertical"
+                    android:textAllCaps="false"
+                    android:id="@+id/btnSelecionarUnidad"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:hint="Seleccione unidad"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtUnidadProducto"
+                    style="@style/Widget.AppCompat.EditText"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cantidad"
+                    android:ems="10"
+                    android:id="@+id/labelCantidad"
+            />
+            <EditText
+                    android:id="@+id/txtCantidadProducto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Digite Cantidad"
+                    android:inputType="numberDecimal"
+            />
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stock Actual"
+                        android:ems="10"
+                />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/labelStockActual"
+                        android:textStyle="bold"
+                />
+            </TableRow>
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stock Nuevo"
+                        android:ems="10"
+                />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/labelStockNuevo"
+                        android:textStyle="bold"
+                />
+            </TableRow>
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio Unitario"
+                        android:ems="10"
+                />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/labelPrecioUnitario"
+                        android:textStyle="bold"
+                />
+            </TableRow>
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio Total"
+                        android:ems="10"
+                />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/labelPrecioTotal"
+                        android:textStyle="bold"
+                />
+            </TableRow>
+            <Button
+                    android:text="Agregar al carrito"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@android:drawable/ic_menu_add"
+                    android:visibility="invisible"
+                    android:gravity="center|center_vertical"
+                    android:textAllCaps="false"
+                    android:id="@+id/btnAgregarCarrito" style="@style/Widget.AppCompat.Button.Colored"/>
+        </RadioGroup>
+
+
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>
