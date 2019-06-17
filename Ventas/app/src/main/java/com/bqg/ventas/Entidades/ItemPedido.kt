@@ -16,6 +16,4 @@ data class ItemPedido (
                 stockNuevo=unidad!!.Stock-cantidad
             }
     }
-
-
 }
