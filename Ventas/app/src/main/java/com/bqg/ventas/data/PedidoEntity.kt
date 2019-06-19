@@ -7,5 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 data class PedidoEntity (
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0,
-    var jsonPedido:String = ""
+    var jsonPedido:String = "",
+
+    var fechaCreacion:String = ""
 )

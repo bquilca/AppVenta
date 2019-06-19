@@ -177,6 +177,7 @@ class CarritoComprasFragment : Fragment() {
 
                     var pedidoSQL=PedidoEntity()
                     pedidoSQL.jsonPedido=jsonPedido
+                    pedidoSQL.fechaCreacion=help.obtenerFechaActualTexto()
                     grabarPedidoInterno(pedidoSQL)
                 }
             }

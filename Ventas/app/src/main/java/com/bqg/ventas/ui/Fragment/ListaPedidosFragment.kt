@@ -15,6 +15,7 @@ import com.bqg.ventas.Entidades.Pedido
 
 import com.bqg.ventas.R
 import com.bqg.ventas.TomaPedidosApp
+import com.bqg.ventas.Utiles.Helper
 import com.bqg.ventas.data.PedidoEntity
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.ui.Adapter.PedidoAdapter
@@ -29,6 +30,7 @@ class ListaPedidosFragment : Fragment() {
     var txtEncabezadoPedidos:TextView?=null
     val listaPedidos=ArrayList<Pedido>()
     var vistaListaPedido:View?=null
+    var help=Helper()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +62,7 @@ class ListaPedidosFragment : Fragment() {
         }
 
         pedidos=ArrayList()
-        listarPedido()
+        eliminarPedidosAnteriores()
     }
 
     lateinit var pedidos: MutableList<PedidoEntity>
@@ -70,6 +72,15 @@ class ListaPedidosFragment : Fragment() {
             pedidos = TomaPedidosApp.database.pedidoDao().getListaPedidos()
             uiThread {
                 cargarPedidos()
+            }
+        }
+    }
+
+    fun eliminarPedidosAnteriores(){
+        doAsync {
+            TomaPedidosApp.database.pedidoDao().eliminarPedidosDiasAnterior(help.obtenerFechaActualTexto())
+            uiThread {
+                listarPedido()
             }
         }
     }
