@@ -95,12 +95,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     ListaPedidosFragment()
                 ).commit()
             }
-            R.id.nav_share -> {
-
+            R.id.nav_cerrarSesio0n -> {
+                val login = Intent(this.applicationContext, LoginActivity::class.java)
+                startActivity(login)
             }
-            R.id.nav_send -> {
 
-            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)

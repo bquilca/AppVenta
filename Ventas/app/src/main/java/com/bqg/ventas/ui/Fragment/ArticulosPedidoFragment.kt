@@ -15,6 +15,7 @@ import android.content.DialogInterface
 import com.bqg.ventas.Entidades.*
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.R
+import com.bqg.ventas.Utiles.Helper
 import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.ui.Adapter.ProductoAdapter
 import com.bqg.ventas.ui.Adapter.UnidadAdapter
@@ -44,6 +45,7 @@ class ArticulosPedidoFragment: Fragment() {
     var alertDialog: AlertDialog? = null
 
     var prefs: Prefs? = null
+    var helper= Helper()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var viewCabeceraProducto=inflater!!.inflate(R.layout.fragment_articulos_pedido, container, false)
@@ -85,8 +87,6 @@ class ArticulosPedidoFragment: Fragment() {
             rdgGroupSeccionUnidad!!.visibility=View.VISIBLE
             txtCodigoProducto!!.text=itemPedido.producto!!.IDProductoAlmacen.toString()
             txtNombreProducto!!.text=itemPedido.producto!!.Descripcion
-            labelStockActual!!.text=itemPedido.producto!!.Stock.toString()
-            labelStockNuevo!!.text=itemPedido.stockNuevo.toString()
         }
         if(itemPedido!!.unidad!=null){
             txtUnidadProducto!!.text=itemPedido.unidad!!.Descripcion
@@ -97,9 +97,12 @@ class ArticulosPedidoFragment: Fragment() {
     fun cargarTotales(){
         var itemPedido = (activity as PedidoActivity).itemPedidoActualActivity
         if(itemPedido!!.producto!=null){
-            labelStockActual!!.text=itemPedido!!.producto!!.Stock.toString()
-            labelPrecioUnitario!!.text=itemPedido!!.precioUnitario.toString()
-            labelPrecioTotal!!.text=itemPedido!!.precioTotal.toString()
+            if(itemPedido!!.unidad!=null){
+                labelStockActual!!.text= helper.formateaDecimal(itemPedido.unidad!!.Stock)
+                labelStockNuevo!!.text=helper.formateaDecimal(itemPedido.stockNuevo)
+                labelPrecioUnitario!!.text=  helper.formateaDecimal(itemPedido!!.precioUnitario)
+                labelPrecioTotal!!.text=helper.formateaDecimal(itemPedido!!.precioTotal)
+            }
         }else{
             labelStockActual!!.text=""
             labelPrecioUnitario!!.text=""
@@ -147,12 +150,18 @@ class ArticulosPedidoFragment: Fragment() {
                 }
                 (activity as PedidoActivity).itemPedidoActualActivity!!.cantidad=valor
                 (activity as PedidoActivity).itemPedidoActualActivity!!.ObtenerPrecio()
+
+                if((activity as PedidoActivity).itemPedidoActualActivity!!.stockNuevo<0.0){
+                    txtCantidadProducto!!.error="Adventencia!! Cantidad ingresada supera stock actual"
+                }
+
                 habiltarBotonCarritoCompras()
                 cargarTotales()
             }
         }
         )
     }
+
 
     fun agregarItemCarrito(){
 
