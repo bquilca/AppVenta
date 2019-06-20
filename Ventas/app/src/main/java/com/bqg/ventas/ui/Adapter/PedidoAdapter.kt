@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bqg.ventas.Entidades.Pedido
 import com.bqg.ventas.R
+import com.bqg.ventas.data.PedidoDao
+import com.bqg.ventas.data.PedidoEntity
 import com.bqg.ventas.ui.View.PedidoView
 import java.util.ArrayList
 
-class PedidoAdapter(val items:ArrayList<Pedido>, val context: Context, val clickListener: (Pedido) -> Unit) : RecyclerView.Adapter<PedidoView>() {
+class PedidoAdapter(val items:List<PedidoEntity>, val context: Context, val clickListener: (PedidoEntity) -> Unit) : RecyclerView.Adapter<PedidoView>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PedidoView {
         return PedidoView(
             LayoutInflater.from(context).inflate(

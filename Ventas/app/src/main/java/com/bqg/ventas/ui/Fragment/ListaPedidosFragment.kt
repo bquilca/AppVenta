@@ -95,9 +95,9 @@ class ListaPedidosFragment : Fragment() {
         txtEncabezadoPedidos!!.text="Total ${listaPedidos.size.toString()} pedidos en el día"
 
         var pedidoAdapter = PedidoAdapter(
-            listaPedidos,
+            pedidoSQL,
             vistaListaPedido!!.context,
-            { partItem: Pedido -> partItemProductoClicked(partItem) })
+            { partItem: PedidoEntity -> partItemProductoClicked(partItem) })
 
         recViewListaPedidos!!.adapter=pedidoAdapter
         pedidoAdapter.notifyDataSetChanged()
@@ -105,7 +105,7 @@ class ListaPedidosFragment : Fragment() {
 
     }
 
-    fun partItemProductoClicked(partItem: Pedido){
+    fun partItemProductoClicked(partItem: PedidoEntity){
 
     }
 

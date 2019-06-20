@@ -13,13 +13,20 @@
     >
 
         <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
                 android:id="@+id/person_photo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:src="@drawable/icono_enviado"
                 android:layout_marginRight="16dp"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/txtFechaPedido"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/person_photo"
+                  android:text="00/00/0000"
         />
 
         <TextView
