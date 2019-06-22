@@ -4,18 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.bqg.ventas.Entidades.Cliente
 import com.bqg.ventas.Entidades.Pedido
 
 import com.bqg.ventas.R
 import com.bqg.ventas.TomaPedidosApp
 import com.bqg.ventas.Utiles.Helper
+import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.data.PedidoEntity
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.ui.Adapter.PedidoAdapter
@@ -24,13 +25,15 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
-class ListaPedidosFragment : Fragment() {
+class ListaPedidosFragment : Fragment(){
     var recViewListaPedidos:RecyclerView?=null
     var fabNuevoPedido:FloatingActionButton?=null
     var txtEncabezadoPedidos:TextView?=null
     val listaPedidos=ArrayList<Pedido>()
     var vistaListaPedido:View?=null
     var help=Helper()
+    var swipeContainer: SwipeRefreshLayout?=null
+    var prefs:Prefs?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +52,17 @@ class ListaPedidosFragment : Fragment() {
 
     fun InicializaVariables(){
         var viewListaPedido=vistaListaPedido!!
+
+        prefs=Prefs(viewListaPedido.context)
+
+        swipeContainer=viewListaPedido.findViewById(R.id.srlContainer)
+
+        swipeContainer!!.setOnRefreshListener {
+            listarPedido()
+        }
+
         recViewListaPedidos=viewListaPedido.findViewById(R.id.recViewListaPedidos)
         recViewListaPedidos!!.setLayoutManager(LinearLayoutManager(viewListaPedido.context))
-
 
         txtEncabezadoPedidos=viewListaPedido.findViewById(R.id.txtEncabezadoPedidos)
 
@@ -69,9 +80,10 @@ class ListaPedidosFragment : Fragment() {
 
     fun listarPedido(){
         doAsync {
-            pedidos = TomaPedidosApp.database.pedidoDao().getListaPedidos()
+            pedidos = TomaPedidosApp.database.pedidoDao().getListaPedidos(prefs!!.usuario)
             uiThread {
                 cargarPedidos()
+                swipeContainer!!.isRefreshing=false
             }
         }
     }
@@ -87,6 +99,7 @@ class ListaPedidosFragment : Fragment() {
 
     fun cargarPedidos(){
         var pedidoSQL= pedidos.toList()
+        listaPedidos.clear()
         for(itemPedido in pedidoSQL){
             val pedidoObjeto= Gson().fromJson(itemPedido.jsonPedido, Pedido::class.java )
             listaPedidos.add(pedidoObjeto)

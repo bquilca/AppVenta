@@ -231,11 +231,11 @@ class CarritoComprasFragment : Fragment() {
                     var pedidoSQL=PedidoEntity()
                     pedidoSQL.jsonPedido=jsonPedido
                     pedidoSQL.fechaCreacion=help.obtenerFechaActualTexto()
+                    pedidoSQL.usuario=prefs!!.usuario
+                    if(!pedido.esClienteReferencial){
+                        pedidoSQL.IDCliente=pedido.cliente!!.IDCliente
+                    }
                     grabarPedidoInterno(pedidoSQL)
-
-
-
-
                 }
             }
         )

@@ -8,6 +8,7 @@ data class PedidoEntity (
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0,
     var jsonPedido:String = "",
-
-    var fechaCreacion:String = ""
+    var fechaCreacion:String = "",
+    var IDCliente:Int=0,
+    var usuario:String=""
 )

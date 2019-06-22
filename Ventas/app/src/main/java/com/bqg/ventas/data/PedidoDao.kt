@@ -6,8 +6,8 @@ import android.arch.persistence.room.Query
 
 @Dao
 interface PedidoDao {
-    @Query("SELECT * FROM Pedido")
-    fun getListaPedidos(): MutableList<PedidoEntity>
+    @Query("SELECT * FROM Pedido where usuario=:usuario order by id desc")
+    fun getListaPedidos(usuario:String): MutableList<PedidoEntity>
 
     @Insert
     fun agregarPedido(pedidoEntity : PedidoEntity):Long
