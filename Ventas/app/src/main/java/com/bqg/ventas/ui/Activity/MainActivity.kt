@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.support.v4.widget.DrawerLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -22,6 +23,7 @@ import com.bqg.ventas.ui.Fragment.ListaPedidosFragment
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     var fragmentContenedor : FragmentManager?=null
     var usuarioLogueado= UsuarioEmpresa()
+    var prefs: Prefs? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         usuarioLogueado = this.intent.extras.get("UsuarioLogueado") as UsuarioEmpresa
 
+        prefs = Prefs(this)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -75,11 +78,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-
-
         when (item.itemId) {
             R.id.nav_home->{
                 fragmentContenedor!!.beginTransaction().replace(R.id.contenedor,
@@ -96,8 +96,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ).commit()
             }
             R.id.nav_cerrarSesio0n -> {
-                val login = Intent(this.applicationContext, LoginActivity::class.java)
-                startActivity(login)
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Confirmar")
+                builder.setMessage("Desea salir del app  ${prefs!!.NombreUsuario}")
+
+                builder.setPositiveButton("Aceptar") { dialog, which ->
+                    val login = Intent(this.applicationContext, LoginActivity::class.java)
+                    startActivity(login)
+                }
+
+                builder.setNegativeButton("Cancelar"){dialog, which ->
+                }
+
+                builder.show()
             }
 
         }

@@ -42,9 +42,8 @@ interface Api {
         @Query("esCredito") esCredito:Boolean
     ): Call<ListaUnidadEscala>
 
-    @POST("Pedido?")
-    @FormUrlEncoded
+    @POST("Pedido")
     fun grabarPedido(
-        @Field("body") contenidoJSON:String
+        @Body contenidoJSON:String
     ): Call<PedidoNegocio>
 }

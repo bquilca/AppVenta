@@ -180,6 +180,7 @@ class LoginActivity : AppCompatActivity() {
         telefono = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
 
+        EstablecerContraseña()
         btnLogin!!.setOnClickListener{
             btnLogin!!.visibility=View.INVISIBLE
             this.loading!!.visibility=View.VISIBLE
@@ -187,6 +188,11 @@ class LoginActivity : AppCompatActivity() {
             prefs!!.IMEI=telefono!!.deviceId!!.toString()
         }
 
+    }
+
+    fun EstablecerContraseña(){
+        username!!.setText(prefs!!.usuario)
+        password!!.setText(prefs!!.password)
     }
 
 }

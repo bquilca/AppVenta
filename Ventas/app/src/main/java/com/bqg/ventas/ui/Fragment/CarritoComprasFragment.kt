@@ -35,6 +35,8 @@ import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.support.v4.content.ContextCompat.getSystemService
 import com.bqg.ventas.Entidades.*
+import com.bqg.ventas.ui.Activity.LoginActivity
+import com.bqg.ventas.ui.Activity.MainActivity
 
 class CarritoComprasFragment : Fragment() {
     //Interfaces
@@ -195,7 +197,7 @@ class CarritoComprasFragment : Fragment() {
             val id = TomaPedidosApp.database.pedidoDao().agregarPedido(pedido)
             //val recoveryTask = TomaPedidosApp.database.pedidoDao().getTaskById(id)
             uiThread {
-
+                RegresarAPrincipal()
             }
         }
 
@@ -204,33 +206,46 @@ class CarritoComprasFragment : Fragment() {
     fun grabarPedidoWebService(){
         val gson = GsonBuilder().setPrettyPrinting().create()
         var pedido=(activity as PedidoActivity).pedidoActualActivity!!
-        val jsonPedido: String = gson.toJson(pedido)
-
 
         var retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(prefs!!.UrlServicioWeb)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var api = retrofit.create(Api::class.java)
-        var call = api.grabarPedido(jsonPedido)
+        var call = api.grabarPedido(ObtenerPedidoJSON())
+
+
         call.enqueue(
             object : Callback<PedidoNegocio> {
                 override fun onFailure(call: Call<PedidoNegocio>, t: Throwable) {
                     MostrarAlerta("Error Grabar Pedido WebService: ${t.toString()}")
                 }
                 override fun onResponse(call: Call<PedidoNegocio>, response: Response<PedidoNegocio>) {
-                    var pedido = response?.body()
-                    //MostrarAlerta(pedido!!.numeroPedido)
+                    var pedidoPOST = response?.body()
+                    pedido.numeroDocumento=pedidoPOST!!.numeroPedido
+
+                    MostrarAlerta("Se grabo exitorsamente el pedido con número : ${pedidoPOST.numeroPedido}")
 
 
+                    val jsonPedido: String = gson.toJson(pedido)
                     var pedidoSQL=PedidoEntity()
                     pedidoSQL.jsonPedido=jsonPedido
                     pedidoSQL.fechaCreacion=help.obtenerFechaActualTexto()
                     grabarPedidoInterno(pedidoSQL)
+
+
+
+
                 }
             }
         )
     }
+
+
+    fun RegresarAPrincipal(){
+        activity!!.onBackPressed()
+    }
+
 
     fun MostrarAlerta(mensaje:String){
         Toast.makeText(this.context, mensaje, Toast.LENGTH_LONG).show()
