@@ -1,8 +1,7 @@
 package com.bqg.ventas.Entidades
 
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
     @GET("login.php?")
@@ -43,8 +42,9 @@ interface Api {
         @Query("esCredito") esCredito:Boolean
     ): Call<ListaUnidadEscala>
 
-    @GET("Pedido?")
+    @POST("Pedido?")
+    @FormUrlEncoded
     fun grabarPedido(
-        @Query("contenidoJSON") contenidoJSON:String
+        @Field("body") contenidoJSON:String
     ): Call<PedidoNegocio>
 }

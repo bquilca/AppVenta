@@ -3,24 +3,33 @@ package com.bqg.ventas.Entidades
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-
-
-
 data class Pedido (
-    var idTipoDocumento: String ? =null,
-    var numeroDocumento: String ? =null,
+    var idTipoDocumento: String="",
+
+    var IDVendedor:String="",
+
     var esClienteReferencial: Boolean=false,
+
+
+    var numeroDocumento: String ? =null,
+
+    var nombreClienteReferencial: String ="",
+    var direccionClienteReferencial: String ="",
+    var documentoClienteReferencial: String ="",
+
+
+
     var cliente: Cliente ?= null,
-    var esCredito: Boolean ? =false,
+    var esCredito: Boolean =false,
     var itemsPedido: ArrayList<ItemPedido>?=ArrayList(),
-    var montoSubTotal: Double?=0.00,
-    var montoAfecto:Double?=0.00,
-    var montoTotalExonerado:Double?=0.00,
-    var montoDescuento:Double?=0.00,
-    var montoIGV:Double?=0.00,
-    var montoTotal: Double?=0.00,
-    var longitudeGPS:Double =0.00,
-    var latitudeGPS:Double =0.00
+    var montoSubTotal: Double=0.00,
+    var montoAfecto:Double=0.00,
+    var montoTotalExonerado:Double=0.00,
+    var montoDescuento:Double=0.00,
+    var montoIGV:Double=0.00,
+    var montoTotal: Double=0.00,
+    var longitudeGPS:Double=0.00,
+    var latitudeGPS:Double=0.00
     )
 {
     fun setcliente(clienteSeleccionado:Cliente){

@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.bqg.ventas.Entidades.ItemPedido
 import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.ui.Adapter.CarritoAdapter
 import com.bqg.ventas.Utiles.Helper
@@ -20,8 +19,6 @@ import android.location.LocationManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.provider.Settings
-import com.bqg.ventas.Entidades.Api
-import com.bqg.ventas.Entidades.PedidoNegocio
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.R
 import com.bqg.ventas.TomaPedidosApp
@@ -37,6 +34,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.support.v4.content.ContextCompat.getSystemService
+import com.bqg.ventas.Entidades.*
 
 class CarritoComprasFragment : Fragment() {
     //Interfaces
@@ -110,9 +108,10 @@ class CarritoComprasFragment : Fragment() {
     var latitudeBest:Double = 0.toDouble()
 
     fun GrabarPedido(){
-        val gson = GsonBuilder().setPrettyPrinting().create()
         var pedido=(activity as PedidoActivity).pedidoActualActivity!!
-        val jsonPedido: String = gson.toJson(pedido)
+        pedido.IDVendedor=prefs!!.IDVendedor
+        pedido.idTipoDocumento= prefs!!.IDDocumento
+        val jsonPedido: String = ObtenerPedidoJSON()
 
         val builder = AlertDialog.Builder(this.context!!)
         builder.setTitle("Pedido")
@@ -127,9 +126,57 @@ class CarritoComprasFragment : Fragment() {
             CompartirJSON(jsonPedido)
         }
 
-
         builder.show()
 
+    }
+
+
+    fun ObtenerPedidoJSON() : String{
+        var pedido=(activity as PedidoActivity).pedidoActualActivity!!
+        var pedidoJSON=PedidoJSON()
+
+        pedidoJSON.codigoVendedor=pedido.IDVendedor
+        pedidoJSON.idTipoDocumento= pedido.idTipoDocumento
+
+        pedidoJSON.esClienteReferencial=pedido.esClienteReferencial
+        if (pedidoJSON.esClienteReferencial){
+            pedidoJSON.nombreClienteReferencial=pedido.nombreClienteReferencial
+            pedidoJSON.direccionClienteReferencial=pedido.direccionClienteReferencial
+            pedidoJSON.documentoClienteReferencial=pedido.documentoClienteReferencial
+        }else{
+            pedidoJSON.IDCliente=pedido.cliente!!.IDCliente
+            pedidoJSON.esCredito=pedido.esCredito
+        }
+
+
+
+        var itemsJSON=ArrayList<ItemPedidoJSON>()
+
+        for(item in pedido.itemsPedido!!){
+            var itemPedidoJSON=ItemPedidoJSON()
+            itemPedidoJSON.IDProductoAlmacen=item.producto!!.IDProductoAlmacen
+            itemPedidoJSON.IDUnidadItemListaPrecio=item.unidad!!.IDUnidadItemListaPrecio
+            itemPedidoJSON.cantidad=item.cantidad
+            itemPedidoJSON.precioUnitario=item.precioUnitario
+            itemPedidoJSON.precioTotal=item.precioTotal
+            itemsJSON.add(itemPedidoJSON)
+        }
+
+        pedidoJSON.itemsPedido=itemsJSON
+
+        pedidoJSON.longitudeGPS=pedido.longitudeGPS
+        pedidoJSON.latitudeGPS=pedido.latitudeGPS
+
+        pedidoJSON.montoSubTotal=pedido.montoSubTotal
+        pedidoJSON.montoAfecto=pedido.montoAfecto
+        pedidoJSON.montoTotalExonerado=pedido.montoTotalExonerado
+        pedidoJSON.montoDescuento=pedido.montoDescuento
+        pedidoJSON.montoIGV=pedido.montoIGV
+        pedidoJSON.montoTotal=pedido.montoTotal
+
+
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(pedidoJSON)
     }
 
     private var myClipboard: ClipboardManager? = null
@@ -174,6 +221,7 @@ class CarritoComprasFragment : Fragment() {
                 override fun onResponse(call: Call<PedidoNegocio>, response: Response<PedidoNegocio>) {
                     var pedido = response?.body()
                     //MostrarAlerta(pedido!!.numeroPedido)
+
 
                     var pedidoSQL=PedidoEntity()
                     pedidoSQL.jsonPedido=jsonPedido

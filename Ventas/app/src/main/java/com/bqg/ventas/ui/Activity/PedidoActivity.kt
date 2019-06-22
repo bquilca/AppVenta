@@ -17,7 +17,7 @@ import com.bqg.ventas.ui.Adapter.SectionsPagerAdapter
 class PedidoActivity : AppCompatActivity() {
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
-    var pedidoActualActivity: Pedido?=Pedido()
+    var pedidoActualActivity=Pedido()
     var itemPedidoActualActivity: ItemPedido?=ItemPedido()
     var adapterTab: SectionsPagerAdapter?=null
 
