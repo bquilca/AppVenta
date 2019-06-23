@@ -11,10 +11,6 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:paddingRight="5px" >
-
-
-
-
             <Switch
                     android:text="Es Cliente Referencial"
                     android:layout_width="wrap_content"
@@ -23,8 +19,6 @@
                     android:textOn="@string/menu_share"
                     android:id="@+id/switchClienteReferencial"
             />
-
-
             <RadioGroup
                     android:id="@+id/rdgGroupSeccionCliente"
                     android:visibility="visible"
@@ -92,6 +86,61 @@
                         android:layout_height="wrap_content"
                         style="@android:style/Widget.EditText"
                 />
+
+            </RadioGroup>
+
+
+            <RadioGroup
+                    android:id="@+id/rdgGroupSeccionClienteReferencial"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Documento"
+
+                />
+
+                <EditText
+                        android:id="@+id/txtDocumentoClienteReferencial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="Ingresa numero de documento"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre"
+                />
+
+                <EditText
+                        android:id="@+id/txtNombreClienteReferencial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Ingresa nombre de cliente"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dirección de Entrega"
+                />
+
+                <EditText
+                        android:id="@+id/txtDireccionClienteReferencial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:hint="Ingresa la direccion de entrega del pedido"
+                />
+
 
             </RadioGroup>
 

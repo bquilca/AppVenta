@@ -40,23 +40,15 @@ class ListaPedidosFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         vistaListaPedido=inflater.inflate(R.layout.fragment_lista_pedidos, container, false)
-
         activity!!.title="Pedidos del dia"
-
-
-
-
         InicializaVariables()
         return vistaListaPedido
     }
 
     fun InicializaVariables(){
         var viewListaPedido=vistaListaPedido!!
-
         prefs=Prefs(viewListaPedido.context)
-
         swipeContainer=viewListaPedido.findViewById(R.id.srlContainer)
-
         swipeContainer!!.setOnRefreshListener {
             listarPedido()
         }

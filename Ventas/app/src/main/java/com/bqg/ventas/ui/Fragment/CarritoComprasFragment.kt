@@ -95,7 +95,6 @@ class CarritoComprasFragment : Fragment() {
         txtDescuentoCarrito=view.findViewById(R.id.txtDescuentoCarrito)
         txtTotalCarrito=view.findViewById(R.id.txtTotalCarrito)
         btnGrabar = view.findViewById(R.id.btnGrabar)
-
     }
 
     fun EventosControles(){
@@ -117,7 +116,7 @@ class CarritoComprasFragment : Fragment() {
 
         val builder = AlertDialog.Builder(this.context!!)
         builder.setTitle("Pedido")
-        builder.setMessage("Desea grabar el pedido : ${jsonPedido}")
+        builder.setMessage("Desea grabar el pedido")
 
         builder.setPositiveButton("Grabar") { dialog, which ->
             //checkLocation()
@@ -284,14 +283,14 @@ class CarritoComprasFragment : Fragment() {
         if(pedido.cliente!=null){
             txtClienteCarrito!!.text="${pedido.cliente!!.Documento} - ${pedido.cliente!!.NombreCompleto}"
         }else{
-            txtClienteCarrito!!.text=""
+            txtClienteCarrito!!.text="${pedido.documentoClienteReferencial} - ${pedido.nombreClienteReferencial}"
         }
         txtSubtTotalCarrito!!.text= help.formateaDecimal(pedido.montoSubTotal!!)
         txtAfectoCarrito!!.text="0.00"
         txtTotalExoneradoCarrito!!.text="0.00"
         txtIgvCarrito!!.text=help.formateaDecimal(pedido.montoIGV!!)
         txtDescuentoCarrito!!.text="0.00"
-        txtTotalCarrito!!.text=help.formateaDecimal(pedido.montoTotal!!)
+        txtTotalCarrito!!.text=help.formateaMonedaSoles(pedido.montoTotal!!)
     }
 
     private fun partItemClicked(partItem : ItemPedido) {

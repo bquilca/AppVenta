@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.item_producto_alert.view.*
 
 class ProductoView (view: View) : RecyclerView.ViewHolder(view) {
     fun bind(part: Producto, clickListener: (Producto) -> Unit) {
-        itemView.txtCodigoProductoBUsca.text = part.Cod_Prod
+        itemView.txtCodigoProductoBUsca.text = "Codigo : ${part.Cod_Prod}"
         itemView.txtNombreProductoBusca.text = part.Descripcion
         itemView.setOnClickListener { clickListener(part)}
     }

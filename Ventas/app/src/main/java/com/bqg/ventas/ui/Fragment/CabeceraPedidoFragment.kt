@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -51,6 +53,10 @@ class CabeceraPedidoFragment : Fragment() {
     private var labelDiasCredito:TextView?=null
     private var labelFechaVencimiento:TextView?=null
 
+    var rdgGroupSeccionClienteReferencial:RadioGroup?=null
+    var txtDocumentoClienteReferencial:EditText?=null
+    var txtNombreClienteReferencial:EditText?=null
+    var txtDireccionClienteReferencial:EditText?=null
 
     var helper:Helper=Helper()
     var  prefs:Prefs?=null
@@ -80,8 +86,69 @@ class CabeceraPedidoFragment : Fragment() {
         labelMontoDeuda=viewCabeceraPedido.findViewById(R.id.labelMontoDeuda)
         labelDiasCredito=viewCabeceraPedido.findViewById(R.id.labelDiasCredito)
         labelFechaVencimiento=viewCabeceraPedido.findViewById(R.id.labelFechaVencimiento)
+
+        rdgGroupSeccionClienteReferencial=viewCabeceraPedido.findViewById(R.id.rdgGroupSeccionClienteReferencial)
+        txtDocumentoClienteReferencial=viewCabeceraPedido.findViewById(R.id.txtDocumentoClienteReferencial)
+        txtNombreClienteReferencial=viewCabeceraPedido.findViewById(R.id.txtNombreClienteReferencial)
+        txtDireccionClienteReferencial=viewCabeceraPedido.findViewById(R.id.txtDireccionClienteReferencial)
+
         eventosFragment()
         CargarInformacionFragmet()
+    }
+
+
+    fun eventosFragment(){
+        switchClienteReferencial!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            (activity as PedidoActivity).pedidoActualActivity!!.setClienteReferencial(isChecked)
+            CargarInformacionFragmet()
+        }
+        btnBuscarCliente!!.setOnClickListener {
+            alertaSelecionarCliente()
+        }
+        checkBoxCredito!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            (activity as PedidoActivity).pedidoActualActivity!!.esCredito=isChecked
+            CargarInformacionFragmet()
+        }
+
+        txtDocumentoClienteReferencial!!.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                (activity as PedidoActivity).pedidoActualActivity!!.documentoClienteReferencial=s.toString()
+            }
+        }
+        )
+
+        txtNombreClienteReferencial!!.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                (activity as PedidoActivity).pedidoActualActivity!!.nombreClienteReferencial=s.toString()
+            }
+
+        })
+
+        txtDireccionClienteReferencial!!.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                (activity as PedidoActivity).pedidoActualActivity!!.direccionClienteReferencial=s.toString()
+            }
+        })
     }
 
     fun CargarInformacionFragmet() {
@@ -89,10 +156,12 @@ class CabeceraPedidoFragment : Fragment() {
         if (pedido.esClienteReferencial!!) {
             rdgGroupSeccionCliente!!.visibility=View.GONE
             rdgGroupSeccionCredito!!.visibility=View.GONE
+            rdgGroupSeccionClienteReferencial!!.visibility=View.VISIBLE
         } else {
             rdgGroupSeccionCliente!!.visibility=View.VISIBLE
-            CargarInformacionCliente(pedido)
+            rdgGroupSeccionClienteReferencial!!.visibility=View.GONE
         }
+        CargarInformacionCliente(pedido)
     }
 
     fun CargarInformacionCliente(pedido: Pedido){
@@ -111,13 +180,16 @@ class CabeceraPedidoFragment : Fragment() {
             txtDocumento!!.text=""
             txtNombreCliente!!.text=""
             txtTipoCliente!!.text=""
+            txtDocumentoClienteReferencial!!.setText(pedido.documentoClienteReferencial)
+            txtNombreClienteReferencial!!.setText(pedido.nombreClienteReferencial)
+            txtDireccionClienteReferencial!!.setText(pedido.direccionClienteReferencial)
             rdgGroupSeccionCredito!!.visibility=View.GONE
         }
     }
 
     fun CargarInformacionLineaCredito(pedido: Pedido){
-        labelLineaCredito!!.text=pedido.cliente!!.MontoLineaCredito.toString()
-        labelMontoDeuda!!.text= (pedido.cliente!!.MontoLineaCredito - pedido.cliente!!.SaldoCredito).toString()
+        labelLineaCredito!!.text=helper.formateaMonedaSoles(pedido.cliente!!.MontoLineaCredito)
+        labelMontoDeuda!!.text= helper.formateaMonedaSoles(pedido.cliente!!.MontoLineaCredito - pedido.cliente!!.SaldoCredito)
         if(pedido.esCredito!!){
             labelDiasCredito!!.text=pedido.cliente!!.DiasCredito.toString()
             var fechaActual=helper.obtenerFechaHoraActual(pedido.cliente!!.DiasCredito)
@@ -128,19 +200,6 @@ class CabeceraPedidoFragment : Fragment() {
         }
     }
 
-    fun eventosFragment(){
-        switchClienteReferencial!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            (activity as PedidoActivity).pedidoActualActivity!!.esClienteReferencial=isChecked
-            CargarInformacionFragmet()
-        }
-        btnBuscarCliente!!.setOnClickListener {
-            alertaSelecionarCliente()
-        }
-        checkBoxCredito!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            (activity as PedidoActivity).pedidoActualActivity!!.esCredito=isChecked
-            CargarInformacionFragmet()
-        }
-    }
 
     var txtBuscarCliente:EditText?=null
     var loadingCliente:ProgressBar?=null

@@ -30,7 +30,7 @@
                 android:layout_height="120dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/tienda"
+                android:src="@drawable/ic_logo"
                 tools:ignore="MissingConstraints"/>
 
         <EditText

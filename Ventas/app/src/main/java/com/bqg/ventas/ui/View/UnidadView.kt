@@ -7,9 +7,10 @@ import kotlinx.android.synthetic.main.item_unidad_precio.view.*
 
 class UnidadView (view: View) : RecyclerView.ViewHolder(view) {
     fun bind(part: Unidad, clickListener: (Unidad) -> Unit) {
+        var helper= com.bqg.ventas.Utiles.Helper()
         itemView.txtUnidadDescripcion.text = part.Descripcion
-        itemView.txtUnidadStock.text = part.Stock.toString()
-        itemView.txtUnidadPrecio.text=part.Precio.toString()
+        itemView.txtUnidadStock.text = helper.formateaDecimal(part.Stock)
+        itemView.txtUnidadPrecio.text=helper.formateaDecimalPrecio(part.Precio)
         itemView.setOnClickListener { clickListener(part)}
     }
 }

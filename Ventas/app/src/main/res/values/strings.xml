@@ -2,7 +2,7 @@
     <string name="app_name">Ventas</string>
     <string name="navigation_drawer_open">Abrir menu de navegación</string>
     <string name="navigation_drawer_close">Cerrar menu de navegación</string>
-    <string name="nav_header_title">Toma Pedidos</string>
+    <string name="nav_header_title">Toma Pedidos SoftLace</string>
     <string name="nav_header_subtitle">bquilca@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configuraciones</string>
@@ -16,7 +16,7 @@
     <string name="menu_nuevo_pedido">Nuevo Pedido</string>
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
     <string name="menu_calificar_app">Calificar App</string>
-    <string name="title_activity_login">App Toma Pedidos</string>
+    <string name="title_activity_login">App SoftLace</string>
     <string name="prompt_email">Email o Usuario de vendedor</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Acceder</string>

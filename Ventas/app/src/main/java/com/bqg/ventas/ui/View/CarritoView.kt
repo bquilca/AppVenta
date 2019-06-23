@@ -10,11 +10,11 @@ class CarritoView (view: View) : RecyclerView.ViewHolder(view) {
     var helper= Helper()
 
     fun bind(part: ItemPedido, clickListener: (ItemPedido) -> Unit) {
-        itemView.txtNombreProductoCarrito.text = "${part.producto!!.Cod_Prod} | ${part.producto!!.Descripcion}"
-        itemView.txtCantidadCarrito.text = helper.formateaDecimal(part.cantidad)
-        itemView.txtUnidadProductoCarrito.text = part.unidad!!.Descripcion
-        itemView.txtPrecioUnitarioCarrito.text = helper.formateaDecimal(part.precioUnitario)
-        itemView.txtPrecioTotalCarrito.text = helper.formateaDecimal(part.precioTotal)
+
+        itemView.txtCodigoProductoCarrito.text="Codigo: ${part.producto!!.Cod_Prod} "
+        itemView.txtNombreProductoCarrito.text = "${part.producto!!.Descripcion}"
+        itemView.txtCantidadCarrito.text = "Cant:${helper.formateaDecimal(part.cantidad)}  ${part.unidad!!.Descripcion}  ${helper.formateaDecimalPrecio(part.precioUnitario)}"
+        itemView.txtPrecioTotalCarrito.text = "Total: ${helper.formateaMonedaSoles(part.precioTotal)}"
         itemView.setOnClickListener { clickListener(part)}
     }
 

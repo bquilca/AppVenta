@@ -100,8 +100,8 @@ class ArticulosPedidoFragment: Fragment() {
             if(itemPedido!!.unidad!=null){
                 labelStockActual!!.text= helper.formateaDecimal(itemPedido.unidad!!.Stock)
                 labelStockNuevo!!.text=helper.formateaDecimal(itemPedido.stockNuevo)
-                labelPrecioUnitario!!.text=  helper.formateaDecimal(itemPedido!!.precioUnitario)
-                labelPrecioTotal!!.text=helper.formateaDecimal(itemPedido!!.precioTotal)
+                labelPrecioUnitario!!.text=  helper.formateaDecimalPrecio(itemPedido!!.precioUnitario)
+                labelPrecioTotal!!.text=helper.formateaMonedaSoles(itemPedido!!.precioTotal)
             }
         }else{
             labelStockActual!!.text=""
@@ -276,10 +276,21 @@ class ArticulosPedidoFragment: Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var api = retrofit.create(Api::class.java)
+
+        var pedidoActual=(activity as PedidoActivity).pedidoActualActivity!!
+        var IDCliente=0
+        var IDTipoCliente=0
+
+        if(pedidoActual.cliente!=null){
+            IDCliente=pedidoActual!!.cliente!!.IDCliente
+            IDTipoCliente=pedidoActual!!.cliente!!.IDTipoCliente
+        }
+
+
         var call = api.obtenerUnidades(
-            (activity as PedidoActivity).pedidoActualActivity!!.cliente!!.IDCliente,
-            (activity as PedidoActivity).pedidoActualActivity!!.cliente!!.IDTipoCliente,
-            (activity as PedidoActivity).pedidoActualActivity!!.esCredito!!,
+            IDCliente,
+            IDTipoCliente,
+            pedidoActual!!.esCredito!!,
             (activity as PedidoActivity).itemPedidoActualActivity!!.producto!!.IDProductoAlmacen ,
             prefs!!.idAlmacen)
 

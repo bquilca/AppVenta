@@ -36,4 +36,19 @@ class Helper {
         val valorFormato = formato.format(numero)
         return valorFormato
     }
+    fun formateaDecimalPrecio(numero:Double):String{
+        val simbolos = DecimalFormatSymbols()
+        simbolos.decimalSeparator='.'
+        val formato = DecimalFormat("###,###.000",simbolos)
+        val valorFormato = formato.format(numero)
+        return "S/ "+valorFormato
+    }
+
+    fun formateaMonedaSoles(numero:Double):String{
+        val simbolos = DecimalFormatSymbols()
+        simbolos.decimalSeparator='.'
+        val formato = DecimalFormat("###,###.00",simbolos)
+        val valorFormato = formato.format(numero)
+        return "S/ "+valorFormato
+    }
 }

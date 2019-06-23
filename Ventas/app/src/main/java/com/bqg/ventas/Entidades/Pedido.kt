@@ -42,6 +42,10 @@ data class Pedido (
     fun setClienteReferencial(valor: Boolean){
         cliente=null
         esCredito=false
+        nombreClienteReferencial=""
+        documentoClienteReferencial=""
+        documentoClienteReferencial=""
+        itemsPedido!!.clear()
         esClienteReferencial=valor
     }
 
@@ -79,6 +83,13 @@ data class Pedido (
         var rs=false
         if(esClienteReferencial){
             rs=true
+            if(nombreClienteReferencial==""){
+                rs=false
+            }else if(documentoClienteReferencial==""){
+                rs=false
+            }else if(direccionClienteReferencial == ""){
+                rs=false
+            }
         }else{
             if(cliente!=null){
                 rs=true
