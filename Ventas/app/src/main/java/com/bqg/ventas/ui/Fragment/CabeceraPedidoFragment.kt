@@ -249,6 +249,7 @@ class CabeceraPedidoFragment : Fragment() {
                     if (response != null) {
                         var clientesObtenidos = response?.body()
                         var clienteAdapter = ClienteAdapter(
+                            (activity as PedidoActivity).clientesDelDia!!,
                             clientesObtenidos?.clientes!!,
                             view!!.context,
                             { partItem: Cliente -> clienteSelecionadoClicked(partItem) })

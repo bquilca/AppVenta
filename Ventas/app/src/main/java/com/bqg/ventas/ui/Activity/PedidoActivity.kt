@@ -11,7 +11,13 @@ import android.view.inputmethod.InputMethodManager
 import com.bqg.ventas.Entidades.ItemPedido
 import com.bqg.ventas.Entidades.Pedido
 import com.bqg.ventas.R
+import com.bqg.ventas.TomaPedidosApp
+import com.bqg.ventas.Utiles.Helper
+import com.bqg.ventas.Utiles.Prefs
+import com.bqg.ventas.data.ClienteDia
 import com.bqg.ventas.ui.Adapter.SectionsPagerAdapter
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class PedidoActivity : AppCompatActivity() {
@@ -19,8 +25,10 @@ class PedidoActivity : AppCompatActivity() {
     var viewPager: ViewPager? = null
     var pedidoActualActivity=Pedido()
     var itemPedidoActualActivity: ItemPedido?=ItemPedido()
+    var clientesDelDia: List<ClienteDia>?=null
     var adapterTab: SectionsPagerAdapter?=null
-
+    var prefs:Prefs?=null
+    var helper=Helper()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pedido)
@@ -28,8 +36,8 @@ class PedidoActivity : AppCompatActivity() {
         //val toolbar = findViewById<Toolbar>(R.id.toolbar)
         //setSupportActionBar(toolbar)
 
-        tabLayout = findViewById<TabLayout>(R.id.tabLayout)
-        viewPager = findViewById<ViewPager>(R.id.view_pager)
+        tabLayout = findViewById(R.id.tabLayout)
+        viewPager = findViewById(R.id.view_pager)
 
         tabLayout!!.addTab(tabLayout!!.newTab().setText("Cliente"))
         tabLayout!!.addTab(tabLayout!!.newTab().setText("Pedido"))
@@ -44,6 +52,8 @@ class PedidoActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
+        ObtenerClientesConVentasDelDia()
+        prefs= Prefs(this)
 
         tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -92,6 +102,13 @@ class PedidoActivity : AppCompatActivity() {
         })
     }
 
+    private fun ObtenerClientesConVentasDelDia(){
+        doAsync {
+            clientesDelDia = TomaPedidosApp.database.pedidoDao().getClientesConVentas(helper.obtenerFechaActualTexto(),prefs!!.usuario)
+            uiThread {
+            }
+        }
+    }
 
     private fun ValidarTabCarrito():Boolean{
         var resultado:Boolean=false

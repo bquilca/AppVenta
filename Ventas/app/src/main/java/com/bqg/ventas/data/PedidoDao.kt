@@ -18,4 +18,7 @@ interface PedidoDao {
     @Query("DELETE FROM Pedido where fechaCreacion != :fechaActual")
     fun eliminarPedidosDiasAnterior(fechaActual: String)
 
+    @Query("SELECT  Distinct IDCliente FROM Pedido where fechaCreacion = :fechaActual and usuario=:usuario")
+    fun getClientesConVentas(fechaActual :String,usuario: String): List<ClienteDia>
+
 }
