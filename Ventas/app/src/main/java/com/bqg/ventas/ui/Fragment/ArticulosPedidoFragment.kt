@@ -228,11 +228,14 @@ class ArticulosPedidoFragment: Fragment() {
         var call = api.obtenerProductos(txtBuscarProducto!!.text.toString(), prefs!!.idAlmacen)
         btnBuscarProductoAlert!!.visibility=View.INVISIBLE
         //loadingCliente!!.visibility=View.VISIBLE
+
+        (activity as PedidoActivity).mostarModalLoading(true)
         call.enqueue(
             object : Callback<ListaProductos> {
                 override fun onFailure(call: Call<ListaProductos>, t: Throwable) {
                     MostrarAlerta(t.toString())
                     btnBuscarProductoAlert!!.visibility=View.VISIBLE
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
 
                 override fun onResponse(call: Call<ListaProductos>, response: Response<ListaProductos>) {
@@ -244,6 +247,7 @@ class ArticulosPedidoFragment: Fragment() {
                     recyclerViewProductos!!.adapter=productoAdapter
                     productoAdapter.notifyDataSetChanged()
                     btnBuscarProductoAlert!!.visibility=View.VISIBLE
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
             }
         )
@@ -287,6 +291,9 @@ class ArticulosPedidoFragment: Fragment() {
         }
 
 
+        (activity as PedidoActivity).mostarModalLoading(true)
+
+
         var call = api.obtenerUnidades(
             IDCliente,
             IDTipoCliente,
@@ -298,6 +305,7 @@ class ArticulosPedidoFragment: Fragment() {
             object : Callback<ListaUnidades> {
                 override fun onFailure(call: Call<ListaUnidades>, t: Throwable) {
                     MostrarAlerta(t.toString())
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
                 override fun onResponse(call: Call<ListaUnidades>, response: Response<ListaUnidades>) {
                     var unidadesObtenidos = response?.body()
@@ -307,6 +315,7 @@ class ArticulosPedidoFragment: Fragment() {
                         { partItem: Unidad -> partItemUnidadClicked(partItem) })
                     recyclerUnidadPrecio!!.adapter=unidadAdapter
                     unidadAdapter.notifyDataSetChanged()
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
             }
         )

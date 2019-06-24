@@ -18,6 +18,7 @@ import com.bqg.ventas.TomaPedidosApp
 import com.bqg.ventas.Utiles.Helper
 import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.data.PedidoEntity
+import com.bqg.ventas.ui.Activity.MainActivity
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.ui.Adapter.PedidoAdapter
 import com.google.gson.Gson
@@ -65,6 +66,9 @@ class ListaPedidosFragment : Fragment(){
         }
 
         pedidos=ArrayList()
+
+        (activity as MainActivity).mostarModalLoading(true)
+
         eliminarPedidosAnteriores()
     }
 
@@ -107,6 +111,7 @@ class ListaPedidosFragment : Fragment(){
         recViewListaPedidos!!.adapter=pedidoAdapter
         pedidoAdapter.notifyDataSetChanged()
 
+        (activity as MainActivity).mostarModalLoading(false)
 
     }
 

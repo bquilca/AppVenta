@@ -120,6 +120,7 @@ class CarritoComprasFragment : Fragment() {
 
         builder.setPositiveButton("Grabar") { dialog, which ->
             //checkLocation()
+            (activity as PedidoActivity).mostarModalLoading(true)
             grabarPedidoWebService()
         }
 
@@ -195,6 +196,7 @@ class CarritoComprasFragment : Fragment() {
             val id = TomaPedidosApp.database.pedidoDao().agregarPedido(pedido)
             //val recoveryTask = TomaPedidosApp.database.pedidoDao().getTaskById(id)
             uiThread {
+                (activity as PedidoActivity).mostarModalLoading(false)
                 RegresarAPrincipal()
             }
         }
@@ -217,13 +219,13 @@ class CarritoComprasFragment : Fragment() {
             object : Callback<PedidoNegocio> {
                 override fun onFailure(call: Call<PedidoNegocio>, t: Throwable) {
                     MostrarAlerta("Error Grabar Pedido WebService: ${t.toString()}")
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
                 override fun onResponse(call: Call<PedidoNegocio>, response: Response<PedidoNegocio>) {
                     var pedidoPOST = response?.body()
                     pedido.numeroDocumento=pedidoPOST!!.numeroPedido
 
                     MostrarAlerta("Se grabo exitorsamente el pedido con número : ${pedidoPOST.numeroPedido}")
-
 
                     val jsonPedido: String = gson.toJson(pedido)
                     var pedidoSQL=PedidoEntity()

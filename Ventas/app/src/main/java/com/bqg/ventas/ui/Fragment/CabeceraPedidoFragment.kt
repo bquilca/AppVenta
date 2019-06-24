@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -205,7 +204,6 @@ class CabeceraPedidoFragment : Fragment() {
 
 
     var txtBuscarCliente:EditText?=null
-    var loadingCliente:ProgressBar?=null
     var btnBuscarClienteAlert:ImageButton?=null
     private fun alertaSelecionarCliente(){
         val dialog = AlertDialog.Builder(this.context)
@@ -213,7 +211,6 @@ class CabeceraPedidoFragment : Fragment() {
 
         btnBuscarClienteAlert = view.findViewById<EditText>(R.id.btnBuscarClienteAlert) as ImageButton
         txtBuscarCliente = view.findViewById<EditText>(R.id.txtBuscarCliente) as EditText
-        loadingCliente =view.findViewById<EditText>(R.id.loadingCliente) as ProgressBar
 
         recyclerViewClientes=view.findViewById(R.id.recyclerClientes) as RecyclerView
         recyclerViewClientes!!.setLayoutManager(LinearLayoutManager(view.context))
@@ -230,22 +227,21 @@ class CabeceraPedidoFragment : Fragment() {
     }
 
     fun CargarClientesWebService() {
+
+        (activity as PedidoActivity).mostarModalLoading(true)
+
         var retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(prefs!!.UrlServicioWeb)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var api = retrofit.create(Api::class.java)
-
         var call = api.obtenerClientes( prefs!!.IDVendedor.toInt(), txtBuscarCliente!!.text.toString())
-        Log.d("BQGREQUEST", call.toString() + "")
-        btnBuscarClienteAlert!!.visibility=View.INVISIBLE
-        loadingCliente!!.visibility=View.VISIBLE
+
         call.enqueue(
             object :Callback<ListaClientes>{
                 override fun onFailure(call: Call<ListaClientes>, t: Throwable) {
                     MostrarAlerta(t.toString())
-                    btnBuscarClienteAlert!!.visibility=View.VISIBLE
-                    loadingCliente!!.visibility=View.GONE
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
 
                 override fun onResponse(call: Call<ListaClientes>, response: Response<ListaClientes>) {
@@ -259,8 +255,7 @@ class CabeceraPedidoFragment : Fragment() {
                         recyclerViewClientes!!.adapter=clienteAdapter
                         clienteAdapter.notifyDataSetChanged()
                     }
-                    btnBuscarClienteAlert!!.visibility=View.VISIBLE
-                    loadingCliente!!.visibility=View.GONE
+                    (activity as PedidoActivity).mostarModalLoading(false)
                 }
             }
         )

@@ -29,6 +29,8 @@ class PedidoActivity : AppCompatActivity() {
     var adapterTab: SectionsPagerAdapter?=null
     var prefs:Prefs?=null
     var helper=Helper()
+
+    var alertDialog: android.app.AlertDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pedido)
@@ -133,5 +135,30 @@ class PedidoActivity : AppCompatActivity() {
         viewPager!!.currentItem = 1
     }
 
+
+    fun alertaModal(){
+        val dialog = android.app.AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.modal_espera, null)
+
+        dialog.setView(view)
+        dialog.setCancelable(false)
+
+        alertDialog = dialog.create()
+        alertDialog!!.show()
+    }
+
+    fun mostarModalLoading(mostrar:Boolean){
+        if(mostrar){
+            if(alertDialog==null){
+                alertaModal()
+            }else{
+                alertDialog!!.show()
+            }
+        }else{
+            if(alertDialog!=null){
+                alertDialog!!.cancel()
+            }
+        }
+    }
 }
 

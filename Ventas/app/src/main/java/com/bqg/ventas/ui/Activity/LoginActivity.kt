@@ -1,19 +1,19 @@
 package com.bqg.ventas.ui.Activity
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.telephony.TelephonyManager
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
 import com.bqg.ventas.R
 import android.support.v4.app.ActivityCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.*
 import com.bqg.ventas.Entidades.*
 import com.bqg.ventas.Utiles.Prefs
 import retrofit2.Call
@@ -27,7 +27,39 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginActivity : AppCompatActivity() {
     val BASE_URL = "http://ws.factlace.com/WebApi/User/"
     var btnLogin: Button? = null
-    var loading: ProgressBar? = null
+    var prefs: Prefs? = null
+    var alertDialog: AlertDialog? = null
+
+    var username:EditText?=null
+    var password:EditText?=null
+    var telefono:TelephonyManager?=null
+
+    @SuppressLint("MissingPermission")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        prefs = Prefs(this)
+
+        setContentView(R.layout.activity_login)
+
+        username = findViewById(R.id.username)
+        password = findViewById(R.id.password)
+
+        btnLogin=findViewById(R.id.btnLogin)
+
+        val permissions = arrayOf(android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.INTERNET)
+        ActivityCompat.requestPermissions(this, permissions,0)
+
+        telefono = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+        EstablecerContrasena()
+        btnLogin!!.setOnClickListener{
+            validarLogin(username!!.text.toString(),password!!.text.toString(),telefono!!.deviceId.toString())
+            prefs!!.IMEI=telefono!!.deviceId!!.toString()
+        }
+
+    }
+
 
     fun AbrirMenuPrincipal(usuarioEmpresa: UsuarioEmpresa) {
         var principal = Intent(this, MainActivity::class.java)
@@ -40,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
         prefs!!.password=password!!.text.toString()
         prefs!!.NombreEmpresa=usuarioEmpresa.NombreEmpresa
         startActivity(principal)
-
         finish()
     }
 
@@ -52,6 +83,8 @@ class LoginActivity : AppCompatActivity() {
         var api = retrofit.create(Api::class.java)
         var call = api.obtenerAlmacem(usuarioEmpresa.IDDocumento.toInt())
 
+        mostarModalLoading(true)
+
         call.enqueue(object : Callback<AlmacenNegocio> {
             override fun onFailure(call: Call<AlmacenNegocio>, t: Throwable) {
                 Toast.makeText(
@@ -59,9 +92,7 @@ class LoginActivity : AppCompatActivity() {
                     "Error servicio web al obtener Almacen: ${t.toString()}",
                     Toast.LENGTH_LONG
                 ).show()
-                AbrirMenuPrincipal(usuarioEmpresa)
-                loading!!.visibility=View.GONE
-                btnLogin!!.visibility=View.VISIBLE
+                mostarModalLoading(false)
             }
             override fun onResponse(call: Call<AlmacenNegocio>, response: Response<AlmacenNegocio>) {
                 if (response != null) {
@@ -69,13 +100,33 @@ class LoginActivity : AppCompatActivity() {
                     prefs!!.idAlmacen = almacen!!.almacen!!
                     AbrirMenuPrincipal(usuarioEmpresa)
                 }
-                loading!!.visibility=View.GONE
-                btnLogin!!.visibility=View.VISIBLE
+                mostarModalLoading(false)
             }
         })
     }
 
-    var prefs: Prefs? = null
+    fun alertaModal(){
+        val dialog = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.modal_espera, null)
+
+        dialog.setView(view)
+        dialog.setCancelable(false)
+
+        alertDialog = dialog.create()
+        alertDialog!!.show()
+    }
+
+    fun mostarModalLoading(mostrar:Boolean){
+        if(mostrar){
+            if(alertDialog==null){
+                alertaModal()
+            }else{
+                alertDialog!!.show()
+            }
+        }else{
+            alertDialog!!.cancel()
+        }
+    }
 
     fun validarLogin(usuarioLogin:String, passwordLogin:String, imeiLogin:String) {
         var retrofit: Retrofit = Retrofit.Builder()
@@ -85,6 +136,8 @@ class LoginActivity : AppCompatActivity() {
         var api = retrofit.create(Api::class.java)
         var call = api.validarLogin(usuarioLogin, passwordLogin, imeiLogin)
         Log.d("BQGREQUEST", call.toString() + "")
+
+        mostarModalLoading(true)
 
         call.enqueue(object : Callback<ListaUsuariosEmpresa> {
             override fun onResponse(call: Call<ListaUsuariosEmpresa>?, response: Response<ListaUsuariosEmpresa>?) {
@@ -107,11 +160,8 @@ class LoginActivity : AppCompatActivity() {
                                             "app.",
                                     Toast.LENGTH_LONG
                                 ).show()
-
-                                loading!!.visibility=View.GONE
-                                btnLogin!!.visibility=View.VISIBLE
+                                mostarModalLoading(false)
                             }
-
                         }
                     } else {
                         Toast.makeText(
@@ -119,13 +169,9 @@ class LoginActivity : AppCompatActivity() {
                             usres?.mensaje,
                             Toast.LENGTH_LONG
                         ).show()
-
-                        loading!!.visibility=View.GONE
-                        btnLogin!!.visibility=View.VISIBLE
+                        mostarModalLoading(false)
                     }
                 }
-
-
             }
             override fun onFailure(call: Call<ListaUsuariosEmpresa>?, t: Throwable?) {
                 Log.v("BQGError", t.toString())
@@ -134,63 +180,12 @@ class LoginActivity : AppCompatActivity() {
                     "Error servicio web: ${t.toString()}",
                     Toast.LENGTH_LONG
                 ).show()
-
-                loading!!.visibility=View.GONE
-                btnLogin!!.visibility=View.VISIBLE
-
+                mostarModalLoading(false)
             }
         })
     }
 
-    fun validarLoginOffLine(usuarioLogin:String, passwordLogin:String, imeiLogin:String) {
-        var usuario=UsuarioEmpresa()
-        usuario.IDEmpresa="TIENDA1"
-        usuario.Nombre="Benigno Quilca Guerrero"
-        usuario.UrlServicioWeb="http://190.237.40.119:81/WebServicesApp/api/"
-        usuario.NombreEmpresa="Distribuidora Peru S.R.L"
-        usuario.IDDocumento="507"
-        usuario.IDVendedor="889"
-        usuario.EncontroImei="1"
-        ObtenerAlmacen(usuario)
-    }
-
-
-    var username:EditText?=null
-    var password:EditText?=null
-    var telefono:TelephonyManager?=null
-
-
-    @SuppressLint("MissingPermission")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        prefs = Prefs(this)
-
-        setContentView(R.layout.activity_login)
-
-        username = findViewById(R.id.username)
-        password = findViewById(R.id.password)
-
-        loading = findViewById(R.id.loading)
-        btnLogin=findViewById(R.id.btnLogin)
-
-        val permissions = arrayOf(android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.INTERNET)
-        ActivityCompat.requestPermissions(this, permissions,0)
-
-        telefono = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
-
-        EstablecerContraseña()
-        btnLogin!!.setOnClickListener{
-            btnLogin!!.visibility=View.INVISIBLE
-            this.loading!!.visibility=View.VISIBLE
-            validarLogin(username!!.text.toString(),password!!.text.toString(),telefono!!.deviceId.toString())
-            prefs!!.IMEI=telefono!!.deviceId!!.toString()
-        }
-
-    }
-
-    fun EstablecerContraseña(){
+    fun EstablecerContrasena(){
         username!!.setText(prefs!!.usuario)
         password!!.setText(prefs!!.password)
     }

@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var fragmentContenedor : FragmentManager?=null
     var usuarioLogueado= UsuarioEmpresa()
     var prefs: Prefs? = null
+    var alertDialog: android.app.AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             HomeFragment()
         ).commit()
     }
+
+    fun alertaModal(){
+        val dialog = android.app.AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.modal_espera, null)
+
+        dialog.setView(view)
+        dialog.setCancelable(false)
+
+        alertDialog = dialog.create()
+        alertDialog!!.show()
+    }
+
+    fun mostarModalLoading(mostrar:Boolean){
+        if(mostrar){
+            if(alertDialog==null){
+                alertaModal()
+            }else{
+                alertDialog!!.show()
+            }
+        }else{
+            alertDialog!!.cancel()
+        }
+    }
+
 
     override fun onBackPressed() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
