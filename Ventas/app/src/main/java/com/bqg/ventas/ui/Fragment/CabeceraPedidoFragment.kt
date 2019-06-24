@@ -45,6 +45,7 @@ class CabeceraPedidoFragment : Fragment() {
     private var txtDocumento:TextView?=null
     private var txtNombreCliente: TextView? = null
     private var txtTipoCliente:TextView?=null
+    private var txtDireccionCliente:TextView?=null
 
     private var rdgGroupSeccionCredito:RadioGroup?=null
     private var checkBoxCredito:CheckBox?=null
@@ -79,6 +80,7 @@ class CabeceraPedidoFragment : Fragment() {
         txtDocumento=viewCabeceraPedido.findViewById(R.id.txtDocumento)
         txtNombreCliente = viewCabeceraPedido.findViewById(R.id.txtNombreCliente)
         txtTipoCliente=viewCabeceraPedido.findViewById(R.id.txtTipoCliente)
+        txtDireccionCliente=viewCabeceraPedido.findViewById(R.id.txtDireccionCliente)
 
         rdgGroupSeccionCredito=viewCabeceraPedido.findViewById(R.id.rdgGroupSeccionCredito)
         checkBoxCredito=viewCabeceraPedido.findViewById(R.id.checkBoxCredito)
@@ -169,6 +171,7 @@ class CabeceraPedidoFragment : Fragment() {
             txtDocumento!!.text=pedido.cliente!!.Documento
             txtNombreCliente!!.text=pedido.cliente!!.NombreCompleto
             txtTipoCliente!!.text=pedido.cliente!!.TipoCliente
+            txtDireccionCliente!!.text=pedido.cliente!!.ClienteDireccion
             checkBoxCredito!!.isChecked=pedido.esCredito!!
             if(pedido.cliente!!.TieneLineaCredito){
                 rdgGroupSeccionCredito!!.visibility=View.VISIBLE

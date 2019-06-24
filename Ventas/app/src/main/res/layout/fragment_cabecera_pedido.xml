@@ -87,6 +87,23 @@
                         style="@android:style/Widget.EditText"
                 />
 
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dirección de entrega"
+                        android:ems="10"
+                />
+
+                <TextView
+                        android:id="@+id/txtDireccionCliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.EditText"
+                />
+
+
             </RadioGroup>
 
 

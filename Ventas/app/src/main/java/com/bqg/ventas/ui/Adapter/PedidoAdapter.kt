@@ -28,6 +28,8 @@ class PedidoAdapter(val items:List<PedidoEntity>, val context: Context, val clic
 
     override fun onBindViewHolder(p0: PedidoView, p1: Int) {
         var item = items[p1]
-        p0.bind(item, clickListener)
+        var imagenes= intArrayOf(R.drawable.ic_shortcut_credit_card,R.drawable.ic_shortcut_money)
+
+        p0.bind(imagenes, item, clickListener)
     }
 }

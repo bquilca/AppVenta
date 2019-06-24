@@ -11,7 +11,14 @@ data class Cliente
     var TieneLineaCredito:Boolean=false,
     var MontoLineaCredito:Double=0.00,
     var DiasCredito:Int=0,
-    var SaldoCredito:Double=0.0
+    var SaldoCredito:Double=0.0,
+    var IDDireccion:Int=0,
+    var ClienteDireccion:String="",
+    var IDDistrito:Int=0,
+    var Distrito:String="",
+    var IDZona:Int=0,
+    var ZonaCodigo:String="",
+    var ZonaNombre:String=""
     )
 {
 }

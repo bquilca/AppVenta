@@ -146,10 +146,9 @@ class CarritoComprasFragment : Fragment() {
             pedidoJSON.documentoClienteReferencial=pedido.documentoClienteReferencial
         }else{
             pedidoJSON.IDCliente=pedido.cliente!!.IDCliente
+            pedidoJSON.IDDireccion=pedido.cliente!!.IDDireccion
             pedidoJSON.esCredito=pedido.esCredito
         }
-
-
 
         var itemsJSON=ArrayList<ItemPedidoJSON>()
 

@@ -11,6 +11,7 @@ data class PedidoJSON
     var documentoClienteReferencial: String ="",
 
     var IDCliente:Int=0,
+    var IDDireccion:Int=0,
     var esCredito: Boolean =false,
 
     var longitudeGPS:Double=0.00,

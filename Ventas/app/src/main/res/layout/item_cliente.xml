@@ -82,6 +82,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
             </TableRow>
+
+
+            <TableRow>
+
+                <TextView
+                        android:text="Dirección"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:text=" : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <TextView
+                        android:id="@+id/labelDireccionClienteBusca"
+                        android:text="..."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+            </TableRow>
         </TableLayout>
 
 

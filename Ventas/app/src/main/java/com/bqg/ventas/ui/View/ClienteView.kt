@@ -29,8 +29,8 @@ class ClienteView(view: View) : RecyclerView.ViewHolder(view) {
         itemView.labelNumeroDocumentoClienteBusca.text=part.Documento
         itemView.labelTipoClienteBusca.text=part.TipoCliente
         itemView.labelLineaCreditoBusca.text=helper.formateaMonedaSoles(part.MontoLineaCredito)
+        itemView.labelDireccionClienteBusca.text=part.ClienteDireccion
         itemView.setOnClickListener { clickListener(part)}
-
     }
 
 

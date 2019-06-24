@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_lista_pedidos.view.*
 
 class PedidoView(view:View):RecyclerView.ViewHolder(view) {
-    fun bind(part: PedidoEntity, clickListener: (PedidoEntity) -> Unit) {
+    fun bind(imagenes: IntArray, part: PedidoEntity, clickListener: (PedidoEntity) -> Unit) {
 
         var helper= com.bqg.ventas.Utiles.Helper()
         val pedidoObjeto= Gson().fromJson(part.jsonPedido, Pedido::class.java )
@@ -24,8 +24,15 @@ class PedidoView(view:View):RecyclerView.ViewHolder(view) {
         }
 
         itemView.txtTotalListaPedido.text="Total : ${helper.formateaMonedaSoles(pedidoObjeto.montoTotal)}"
-        itemView.txtFechaPedido.text=part.fechaCreacion
-        
+
+        if (pedidoObjeto.esCredito) {
+            itemView.imgModalidadPago.setImageResource(imagenes[0])
+            itemView.txtModalidadPago.text="Al Crédito"
+        } else {
+            itemView.imgModalidadPago.setImageResource(imagenes[1])
+            itemView.txtModalidadPago.text="Al Contado"
+        }
+
         itemView.setOnClickListener { clickListener(part)}
     }
 }

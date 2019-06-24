@@ -9,24 +9,24 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="10dp"
     >
 
         <ImageView
                 android:layout_width="70dp"
-                android:layout_height="60dp"
-                android:id="@+id/person_photo"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgModalidadPago"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/icono_enviado"
+                android:src="@drawable/ic_shortcut_money"
                 android:layout_marginRight="16dp"
         />
 
         <TextView android:layout_width="wrap_content"
-                  android:id="@+id/txtFechaPedido"
+                  android:id="@+id/txtModalidadPago"
                   android:layout_height="wrap_content"
-                  android:layout_below="@+id/person_photo"
-                  android:text="00/00/0000"
+                  android:layout_below="@+id/imgModalidadPago"
+                  android:text="01/01/2019"
         />
 
         <TextView
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtPedidoListaPedido"
                 android:text="Pedido 401: 401-0000123"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/imgModalidadPago"
                 android:layout_alignParentTop="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtDniListaPedido"
                 android:text="DNI: 44374552"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/imgModalidadPago"
                 android:layout_below="@+id/txtPedidoListaPedido"
                 android:textSize="14sp"
                 android:textStyle="normal"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtClienteListaPedido"
                 android:text="Cliente: Benigno Quilca Guerrero"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/imgModalidadPago"
                 android:layout_below="@+id/txtDniListaPedido"
                 android:textSize="14sp"
                 android:textStyle="normal"
@@ -68,15 +68,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtTotalListaPedido"
                 android:text="Total: S/ 328.00"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/imgModalidadPago"
                 android:layout_below="@+id/txtClienteListaPedido"
                 android:textSize="14sp"
                 android:textStyle="normal"
         />
-
     </RelativeLayout>
-
-
-
 
 </android.support.v7.widget.CardView>
