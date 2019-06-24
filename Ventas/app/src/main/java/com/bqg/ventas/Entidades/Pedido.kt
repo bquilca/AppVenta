@@ -45,7 +45,6 @@ data class Pedido (
         nombreClienteReferencial=""
         documentoClienteReferencial=""
         documentoClienteReferencial=""
-        itemsPedido!!.clear()
         esClienteReferencial=valor
     }
 

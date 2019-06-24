@@ -14,6 +14,16 @@ data class ItemPedido (
                 precioUnitario=unidad!!.Precio
                 precioTotal=precioUnitario*cantidad
                 stockNuevo=unidad!!.Stock-cantidad
+            }else{
+                precioUnitario=0.00
+                precioTotal=0.00
+                stockNuevo=0.00
             }
+    }
+
+    fun EstablecerProducto(productoActual:Producto){
+        producto=productoActual
+        unidad=null
+        ObtenerPrecio()
     }
 }

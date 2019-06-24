@@ -164,7 +164,6 @@ class ArticulosPedidoFragment: Fragment() {
 
 
     fun agregarItemCarrito(){
-
         if((activity as PedidoActivity).itemPedidoActualActivity!!.grabado){
             (activity as PedidoActivity).pedidoActualActivity!!.modificarItem((activity as PedidoActivity).itemPedidoActualActivity!!)
         }else{
@@ -361,7 +360,7 @@ class ArticulosPedidoFragment: Fragment() {
     }
 
     fun partItemProductoClicked(partItem : Producto) {
-        (activity as PedidoActivity).itemPedidoActualActivity!!.producto=partItem
+        (activity as PedidoActivity).itemPedidoActualActivity!!.EstablecerProducto(partItem)
         CargarInformacionFragmet()
         alertDialog!!.dismiss()
         alertaSelecionarUnidad()
