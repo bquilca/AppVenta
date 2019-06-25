@@ -2,23 +2,17 @@ package com.bqg.ventas.Entidades
 
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.*
 
 data class Pedido (
     var idTipoDocumento: String="",
-
     var IDVendedor:String="",
-
     var esClienteReferencial: Boolean=false,
-
-
     var numeroDocumento: String ? =null,
-
     var nombreClienteReferencial: String ="",
     var direccionClienteReferencial: String ="",
     var documentoClienteReferencial: String ="",
-
-
-
+    var uuid: String = UUID.randomUUID().toString(),
     var cliente: Cliente ?= null,
     var esCredito: Boolean =false,
     var itemsPedido: ArrayList<ItemPedido>?=ArrayList(),

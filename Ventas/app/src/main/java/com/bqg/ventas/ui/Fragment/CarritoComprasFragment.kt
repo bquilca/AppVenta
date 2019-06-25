@@ -139,6 +139,7 @@ class CarritoComprasFragment : Fragment() {
 
         pedidoJSON.codigoVendedor=pedido.IDVendedor
         pedidoJSON.idTipoDocumento= pedido.idTipoDocumento
+        pedidoJSON.uuid=pedido.uuid+prefs!!.IMEI
 
         pedidoJSON.esClienteReferencial=pedido.esClienteReferencial
         if (pedidoJSON.esClienteReferencial){
