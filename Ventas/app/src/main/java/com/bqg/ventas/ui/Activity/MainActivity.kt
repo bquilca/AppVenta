@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        usuarioLogueado = this.intent.extras.get("UsuarioLogueado") as UsuarioEmpresa
+        var fragment = this.intent.extras.get("Fragment") as String
 
         prefs = Prefs(this)
 
@@ -48,10 +48,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        fragmentContenedor =supportFragmentManager
-        fragmentContenedor!!.beginTransaction().replace(R.id.contenedor,
-            HomeFragment()
-        ).commit()
+        when (fragment) {
+            "Pedido"->{
+                fragmentContenedor =supportFragmentManager
+                fragmentContenedor!!.beginTransaction().replace(R.id.contenedor,
+                    ListaPedidosFragment()
+                ).commit()
+            }
+            "Home"->{
+                fragmentContenedor =supportFragmentManager
+                fragmentContenedor!!.beginTransaction().replace(R.id.contenedor,
+                    HomeFragment()
+                ).commit()
+            }
+        }
     }
 
     fun alertaModal(){

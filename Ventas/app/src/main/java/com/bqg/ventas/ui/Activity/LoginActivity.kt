@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun AbrirMenuPrincipal(usuarioEmpresa: UsuarioEmpresa) {
         var principal = Intent(this, MainActivity::class.java)
-        principal.putExtra("UsuarioLogueado", usuarioEmpresa)
+        principal.putExtra("Fragment", "Home")
         prefs!!.UrlServicioWeb=usuarioEmpresa.UrlServicioWeb
         prefs!!.IDDocumento=usuarioEmpresa.IDDocumento
         prefs!!.NombreUsuario=usuarioEmpresa.Nombre

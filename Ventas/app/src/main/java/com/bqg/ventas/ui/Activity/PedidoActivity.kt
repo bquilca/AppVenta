@@ -1,6 +1,7 @@
 package com.bqg.ventas.ui.Activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
@@ -52,62 +53,66 @@ class PedidoActivity : AppCompatActivity() {
         viewPager!!.adapter = adapterTab
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
-        val builder = AlertDialog.Builder(this)
-
         ObtenerClientesConVentasDelDia()
+
         prefs= Prefs(this)
 
-        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager!!.currentItem = tab.position
-                if(tab.position==1){
-                    if(!pedidoActualActivity!!.datosClienteCompleto()){
-                        builder.setTitle("Debe registrar datos de Cliente")
-                        builder.setMessage("Debe llenar datos de cliente")
-                        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                        }
-                        builder.show()
-                        viewPager!!.currentItem = 0
-                    }
-                }
-                if(tab.position==2){
-                    if(!pedidoActualActivity!!.datosClienteCompleto()){
-                        builder.setTitle("Debe registrar datos de Cliente")
-                        builder.setMessage("Debe llenar datos de cliente")
-                        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                        }
-                        builder.show()
-                        viewPager!!.currentItem = 0
-                    }
-                    else if(!ValidarTabCarrito()){
-                        builder.setTitle("Debe ingresar productos al carrito")
-                        builder.setMessage("Debe ingresar productos al carrito")
-                        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                        }
-                        builder.show()
-                        viewPager!!.currentItem = 1
-                    }
-                    else{
-                    viewPager!!.adapter = adapterTab
-                    viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-                    viewPager!!.adapter!!.notifyDataSetChanged()
-                    viewPager!!.currentItem = tab.position
-                    }
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {
 
-            }
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
     }
 
     private fun ObtenerClientesConVentasDelDia(){
+        mostarModalLoading(true)
+        val builder = AlertDialog.Builder(this)
         doAsync {
             clientesDelDia = TomaPedidosApp.database.pedidoDao().getClientesConVentas(helper.obtenerFechaActualTexto(),prefs!!.usuario)
             uiThread {
+                tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab) {
+                        viewPager!!.currentItem = tab.position
+                        if(tab.position==1){
+                            if(!pedidoActualActivity!!.datosClienteCompleto()){
+                                builder.setTitle("Debe registrar datos de Cliente")
+                                builder.setMessage("Debe llenar datos de cliente")
+                                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                                }
+                                builder.show()
+                                viewPager!!.currentItem = 0
+                            }
+                        }
+                        if(tab.position==2){
+                            if(!pedidoActualActivity!!.datosClienteCompleto()){
+                                builder.setTitle("Debe registrar datos de Cliente")
+                                builder.setMessage("Debe llenar datos de cliente")
+                                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                                }
+                                builder.show()
+                                viewPager!!.currentItem = 0
+                            }
+                            else if(!ValidarTabCarrito()){
+                                builder.setTitle("Debe ingresar productos al carrito")
+                                builder.setMessage("Debe ingresar productos al carrito")
+                                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                                }
+                                builder.show()
+                                viewPager!!.currentItem = 1
+                            }
+                            else{
+                                viewPager!!.adapter = adapterTab
+                                viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+                                viewPager!!.adapter!!.notifyDataSetChanged()
+                                viewPager!!.currentItem = tab.position
+                            }
+                        }
+                    }
+                    override fun onTabUnselected(tab: TabLayout.Tab) {
+
+                    }
+                    override fun onTabReselected(tab: TabLayout.Tab) {
+
+                    }
+                })
+
+                mostarModalLoading(false)
             }
         }
     }
@@ -159,6 +164,12 @@ class PedidoActivity : AppCompatActivity() {
                 alertDialog!!.cancel()
             }
         }
+    }
+
+    fun regresarAListaPedido(){
+        var principal = Intent(this, MainActivity::class.java)
+        principal.putExtra("Fragment", "Pedido")
+        navigateUpTo(principal)
     }
 }
 

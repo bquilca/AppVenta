@@ -15,10 +15,7 @@ import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.ui.Adapter.CarritoAdapter
 import com.bqg.ventas.Utiles.Helper
 import com.google.gson.GsonBuilder
-import android.location.LocationManager
-import android.content.DialogInterface
 import android.content.Intent
-import android.provider.Settings
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.R
 import com.bqg.ventas.TomaPedidosApp
@@ -33,9 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
-import android.support.v4.content.ContextCompat.getSystemService
 import com.bqg.ventas.Entidades.*
-import com.bqg.ventas.ui.Activity.LoginActivity
 import com.bqg.ventas.ui.Activity.MainActivity
 
 class CarritoComprasFragment : Fragment() {
@@ -56,6 +51,11 @@ class CarritoComprasFragment : Fragment() {
 
     var prefs: Prefs? = null
     var help=Helper()
+
+    //Copiar en Portapapeles
+    private var myClipboard: ClipboardManager? = null
+    private var myClip: ClipData? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -84,7 +84,6 @@ class CarritoComprasFragment : Fragment() {
         return viewCarritoCompras
     }
 
-
     fun InicializaVariables(view:View){
         prefs = Prefs(activity!!)
         txtClienteCarrito=view.findViewById(R.id.txtClienteCarrito)
@@ -102,11 +101,6 @@ class CarritoComprasFragment : Fragment() {
             GrabarPedido()
         }
     }
-
-    var locationManager : LocationManager? = null
-
-    var longitudeBest: Double = 0.toDouble()
-    var latitudeBest:Double = 0.toDouble()
 
     fun GrabarPedido(){
         var pedido=(activity as PedidoActivity).pedidoActualActivity!!
@@ -131,7 +125,6 @@ class CarritoComprasFragment : Fragment() {
         builder.show()
 
     }
-
 
     fun ObtenerPedidoJSON() : String{
         var pedido=(activity as PedidoActivity).pedidoActualActivity!!
@@ -181,8 +174,6 @@ class CarritoComprasFragment : Fragment() {
         return gson.toJson(pedidoJSON)
     }
 
-    private var myClipboard: ClipboardManager? = null
-    private var myClip: ClipData? = null
     fun CompartirJSON(jsonPedido:String){
         myClip = ClipData.newPlainText("text", jsonPedido)
         myClipboard?.setPrimaryClip(myClip)
@@ -190,7 +181,6 @@ class CarritoComprasFragment : Fragment() {
         MostrarAlerta("Se copio JSON al portapeles")
 
     }
-
 
     fun grabarPedidoInterno(pedido:PedidoEntity){
         doAsync {
@@ -219,65 +209,55 @@ class CarritoComprasFragment : Fragment() {
         call.enqueue(
             object : Callback<PedidoNegocio> {
                 override fun onFailure(call: Call<PedidoNegocio>, t: Throwable) {
-                    MostrarAlerta("Error Grabar Pedido WebService: ${t.toString()}")
                     (activity as PedidoActivity).mostarModalLoading(false)
+                    MostrarErroresGrabarPedido(t.toString())
                 }
                 override fun onResponse(call: Call<PedidoNegocio>, response: Response<PedidoNegocio>) {
                     var pedidoPOST = response?.body()
-                    pedido.numeroDocumento=pedidoPOST!!.numeroPedido
+                    if(pedidoPOST!=null){
+                        pedido.numeroDocumento=pedidoPOST!!.numeroPedido
+                        if(pedidoPOST!!.CodigoRespuesta==0){
 
-                    MostrarAlerta("Se grabo exitorsamente el pedido con número : ${pedidoPOST.numeroPedido}")
+                            val jsonPedido: String = gson.toJson(pedido)
+                            var pedidoSQL=PedidoEntity()
+                            pedidoSQL.jsonPedido=jsonPedido
+                            pedidoSQL.fechaCreacion=help.obtenerFechaActualTexto()
+                            pedidoSQL.usuario=prefs!!.usuario
+                            if(!pedido.esClienteReferencial){
+                                pedidoSQL.IDCliente=pedido.cliente!!.IDCliente
+                            }
+                            grabarPedidoInterno(pedidoSQL)
 
-                    val jsonPedido: String = gson.toJson(pedido)
-                    var pedidoSQL=PedidoEntity()
-                    pedidoSQL.jsonPedido=jsonPedido
-                    pedidoSQL.fechaCreacion=help.obtenerFechaActualTexto()
-                    pedidoSQL.usuario=prefs!!.usuario
-                    if(!pedido.esClienteReferencial){
-                        pedidoSQL.IDCliente=pedido.cliente!!.IDCliente
+                            MostrarAlerta("Se grabo exitorsamente el pedido con número : ${pedidoPOST.numeroPedido}")
+                        }else{
+                            MostrarErroresGrabarPedido(pedidoPOST.MensajeRespuesta)
+                            (activity as PedidoActivity).mostarModalLoading(false)
+                        }
+                    }else{
+                        MostrarErroresGrabarPedido("Error del servicio web")
                     }
-                    grabarPedidoInterno(pedidoSQL)
                 }
             }
         )
+    }
+
+    fun MostrarErroresGrabarPedido(mensajeError:String){
+        val builder = AlertDialog.Builder(this.context!!)
+        builder.setTitle("Error al grabar pedido")
+        builder.setMessage(mensajeError)
+
+        builder.setNegativeButton("Editar Pedido") { dialog, which ->
+        }
+        builder.show()
     }
 
 
     fun RegresarAPrincipal(){
-        activity!!.onBackPressed()
+        (activity!! as PedidoActivity).regresarAListaPedido()
     }
-
 
     fun MostrarAlerta(mensaje:String){
         Toast.makeText(this.context, mensaje, Toast.LENGTH_LONG).show()
-    }
-
-
-    private fun isLocationEnabled(): Boolean {
-        return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager!!.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun checkLocation(): Boolean {
-        if (!isLocationEnabled())
-            showAlert()
-        return isLocationEnabled()
-    }
-
-    private fun showAlert() {
-        val dialog = AlertDialog.Builder(this.context!!)
-        dialog.setTitle("Enable Location")
-            .setMessage(("Su ubicación esta desactivada.\npor favor active su ubicación " + "usa esta app"))
-            .setPositiveButton("Configuración de ubicación"
-            ) { paramDialogInterface, paramInt ->
-                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(myIntent)
-            }
-            .setNegativeButton("Cancelar", object:DialogInterface.OnClickListener {
-                override fun onClick(paramDialogInterface:DialogInterface, paramInt:Int) {}
-            })
-        dialog.show()
     }
 
     fun CargarInformacionFragmet(){
@@ -295,7 +275,7 @@ class CarritoComprasFragment : Fragment() {
         txtTotalCarrito!!.text=help.formateaMonedaSoles(pedido.montoTotal!!)
     }
 
-    private fun partItemClicked(partItem : ItemPedido) {
+    fun partItemClicked(partItem : ItemPedido) {
         val builder = AlertDialog.Builder(this.context!!)
         builder.setTitle("Actualizar Producto")
         builder.setMessage("Que desea realizar con el producto : ${partItem.producto!!.Descripcion}")
@@ -322,5 +302,4 @@ class CarritoComprasFragment : Fragment() {
         }
         builder.show()
     }
-
 }
