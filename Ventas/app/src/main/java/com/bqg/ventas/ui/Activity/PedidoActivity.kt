@@ -1,14 +1,18 @@
 package com.bqg.ventas.ui.Activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.viewpager.widget.ViewPager
 import com.bqg.ventas.Entidades.ItemPedido
 import com.bqg.ventas.Entidades.Pedido
 import com.bqg.ventas.R
@@ -17,6 +21,9 @@ import com.bqg.ventas.Utiles.Helper
 import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.data.ClienteDia
 import com.bqg.ventas.ui.Adapter.SectionsPagerAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.material.tabs.TabLayout
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -32,12 +39,21 @@ class PedidoActivity : AppCompatActivity() {
     var helper=Helper()
 
     var alertDialog: android.app.AlertDialog? = null
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pedido)
 
         //val toolbar = findViewById<Toolbar>(R.id.toolbar)
         //setSupportActionBar(toolbar)
+
+        val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        ActivityCompat.requestPermissions(this, permissions,0)
+
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.view_pager)
@@ -54,11 +70,10 @@ class PedidoActivity : AppCompatActivity() {
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
         ObtenerClientesConVentasDelDia()
-
         prefs= Prefs(this)
-
-
     }
+
+
 
     private fun ObtenerClientesConVentasDelDia(){
         mostarModalLoading(true)
@@ -112,8 +127,9 @@ class PedidoActivity : AppCompatActivity() {
                     }
                 })
 
-                mostarModalLoading(false)
+
             }
+            mostarModalLoading(false)
         }
     }
 

@@ -4,24 +4,21 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".ui.Fragment.HomeFragment">
-
     <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:padding="50px"
             android:layout_height="match_parent">
-
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/labelBienvenido"
                 android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="Hola Benigno!. Bienvenido nuevamente a la App"
                 android:textSize="18sp"/>
-
         <TableLayout android:layout_width="match_parent"
                      android:layout_height="match_parent">
-
             <TableRow>
                 <TextView
                         android:layout_width="match_parent"
@@ -45,9 +42,7 @@
                         android:textStyle="normal"
                         android:text="Distribuidora Peru S.R.L"
                 />
-
             </TableRow>
-
             <TableRow>
                 <TextView
                         android:layout_width="match_parent"
@@ -69,7 +64,6 @@
                         android:text="1010101010100101"
                 />
             </TableRow>
-
             <TableRow>
                 <TextView
                         android:layout_width="match_parent"
@@ -91,9 +85,6 @@
                         android:text="VENDEDOR1"
                 />
             </TableRow>
-
-
-
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,17 +93,8 @@
                     android:layout_alignParentRight="true"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryDark"
-                    android:text="Versión 1.0.0.0_Beta"
+                    android:text="Versión 1.0.0.1_Beta"
             />
-
         </TableLayout>
-
-
-
-
     </LinearLayout>
-
-
-
-
 </FrameLayout>

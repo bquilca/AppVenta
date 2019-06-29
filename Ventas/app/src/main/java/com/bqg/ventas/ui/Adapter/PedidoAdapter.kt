@@ -1,9 +1,9 @@
 package com.bqg.ventas.ui.Adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bqg.ventas.Entidades.Pedido
 import com.bqg.ventas.R
 import com.bqg.ventas.data.PedidoDao

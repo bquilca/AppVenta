@@ -1,10 +1,9 @@
 package com.bqg.ventas.ui.Fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.ui.Adapter.CarritoAdapter
 import com.bqg.ventas.Utiles.Helper
 import com.google.gson.GsonBuilder
-import android.content.Intent
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.R
 import com.bqg.ventas.TomaPedidosApp
@@ -30,8 +28,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.DialogInterface
+import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
+import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bqg.ventas.Entidades.*
-import com.bqg.ventas.ui.Activity.MainActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class CarritoComprasFragment : Fragment() {
     //Interfaces
@@ -56,16 +63,22 @@ class CarritoComprasFragment : Fragment() {
     private var myClipboard: ClipboardManager? = null
     private var myClip: ClipData? = null
 
+    //GPS
+    var locationManager : LocationManager? = null
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         // Inflate the layout for this fragment
-
         myClipboard =  activity!!.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
 
         viewCarritoCompras=inflater!!.inflate(R.layout.fragment_carrito_compras, container, false)
         recyclerViewItemCarrito= this.viewCarritoCompras!!.findViewById(R.id.recyclerViewItemCarrito) as RecyclerView
         recyclerViewItemCarrito!!.setLayoutManager(LinearLayoutManager(viewCarritoCompras!!.context))
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.context!!)
+        locationManager = activity!!.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager?
 
         carritoAdapter = CarritoAdapter(
             (activity as PedidoActivity).pedidoActualActivity!!.itemsPedido!!,
@@ -79,9 +92,42 @@ class CarritoComprasFragment : Fragment() {
 
         CargarInformacionFragmet()
 
-        //locationManager =  activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-
         return viewCarritoCompras
+    }
+
+    //GPS
+    @SuppressLint("MissingPermission")
+    fun obtieneLocalizacion(){
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                (activity as PedidoActivity).pedidoActualActivity.longitudeGPS=location?.longitude!!
+                (activity as PedidoActivity).pedidoActualActivity.latitudeGPS=location?.latitude!!
+
+
+                var pedido=(activity as PedidoActivity).pedidoActualActivity!!
+                pedido.IDVendedor=prefs!!.IDVendedor
+                pedido.idTipoDocumento= prefs!!.IDDocumento
+
+
+                val jsonPedido: String = ObtenerPedidoJSON()
+
+                val builder = AlertDialog.Builder(this.context!!)
+                builder.setTitle("Pedido")
+                builder.setMessage("Desea grabar el pedido")
+
+                builder.setPositiveButton("Grabar") { dialog, which ->
+                    //checkLocation()
+                    (activity as PedidoActivity).mostarModalLoading(true)
+                    grabarPedidoWebService()
+                }
+
+                builder.setNegativeButton("CopiarJSON"){dialog, which ->
+                    CompartirJSON(jsonPedido)
+                }
+
+                builder.show()
+
+            }
     }
 
     fun InicializaVariables(view:View){
@@ -103,27 +149,9 @@ class CarritoComprasFragment : Fragment() {
     }
 
     fun GrabarPedido(){
-        var pedido=(activity as PedidoActivity).pedidoActualActivity!!
-        pedido.IDVendedor=prefs!!.IDVendedor
-        pedido.idTipoDocumento= prefs!!.IDDocumento
-        val jsonPedido: String = ObtenerPedidoJSON()
-
-        val builder = AlertDialog.Builder(this.context!!)
-        builder.setTitle("Pedido")
-        builder.setMessage("Desea grabar el pedido")
-
-        builder.setPositiveButton("Grabar") { dialog, which ->
-            //checkLocation()
-            (activity as PedidoActivity).mostarModalLoading(true)
-            grabarPedidoWebService()
+        if(checkLocation()){
+            obtieneLocalizacion()
         }
-
-        builder.setNegativeButton("CopiarJSON"){dialog, which ->
-            CompartirJSON(jsonPedido)
-        }
-
-        builder.show()
-
     }
 
     fun ObtenerPedidoJSON() : String{
@@ -301,5 +329,36 @@ class CarritoComprasFragment : Fragment() {
             (activity as PedidoActivity).tabModificarProducto()
         }
         builder.show()
+    }
+
+
+    //validar si esta activo GPS
+    private fun checkLocation(): Boolean {
+        if (!isLocationEnabled())
+            showAlert()
+        return isLocationEnabled()
+    }
+
+
+    private fun isLocationEnabled(): Boolean {
+        return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager!!.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+
+    private fun showAlert() {
+        val dialog = AlertDialog.Builder(this.context!!)
+        dialog.setTitle("Activa GPS")
+            .setMessage(("Su ubicación esta desactivada.\npor favor active su ubicación " + "usa esta app"))
+            .setPositiveButton("Configuración de ubicación"
+            ) { paramDialogInterface, paramInt ->
+                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(myIntent)
+            }
+            .setNegativeButton("Cancelar", object: DialogInterface.OnClickListener {
+                override fun onClick(paramDialogInterface:DialogInterface, paramInt:Int) {}
+            })
+        dialog.show()
     }
 }

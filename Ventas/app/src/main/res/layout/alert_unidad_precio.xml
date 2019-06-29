@@ -14,12 +14,12 @@
                 android:orientation="vertical"
                 android:layout_height="fill_parent"
                 android:paddingRight="5px" >
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerUnidadPrecio"
                     android:layout_width="match_parent"
                     android:focusable="true"
                     android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

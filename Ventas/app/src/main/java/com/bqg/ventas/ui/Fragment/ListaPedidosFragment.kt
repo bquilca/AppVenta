@@ -2,15 +2,14 @@ package com.bqg.ventas.ui.Fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bqg.ventas.Entidades.Pedido
 
 import com.bqg.ventas.R
@@ -21,14 +20,15 @@ import com.bqg.ventas.data.PedidoEntity
 import com.bqg.ventas.ui.Activity.MainActivity
 import com.bqg.ventas.ui.Activity.PedidoActivity
 import com.bqg.ventas.ui.Adapter.PedidoAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
 class ListaPedidosFragment : Fragment(){
-    var recViewListaPedidos:RecyclerView?=null
-    var fabNuevoPedido:FloatingActionButton?=null
+    var recViewListaPedidos: RecyclerView?=null
+    var fabNuevoPedido: FloatingActionButton?=null
     var txtEncabezadoPedidos:TextView?=null
     val listaPedidos=ArrayList<Pedido>()
     var vistaListaPedido:View?=null

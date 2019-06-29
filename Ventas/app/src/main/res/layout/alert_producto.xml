@@ -29,7 +29,6 @@
 
 
     <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" tools:ignore="MissingConstraints">
@@ -41,6 +40,7 @@
                 android:orientation="vertical"
                 android:layout_height="fill_parent"
                 android:paddingRight="5px" >
+
 
 
             <LinearLayout
@@ -56,12 +56,12 @@
                 />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerProductos"
                     android:layout_width="match_parent"
                     android:focusable="true"
                     android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

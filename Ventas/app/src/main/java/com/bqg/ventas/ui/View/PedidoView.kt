@@ -1,13 +1,13 @@
 package com.bqg.ventas.ui.View
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.bqg.ventas.Entidades.Pedido
 import com.bqg.ventas.data.PedidoEntity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_lista_pedidos.view.*
 
-class PedidoView(view:View):RecyclerView.ViewHolder(view) {
+class PedidoView(view:View): RecyclerView.ViewHolder(view) {
     fun bind(imagenes: IntArray, part: PedidoEntity, clickListener: (PedidoEntity) -> Unit) {
 
         var helper= com.bqg.ventas.Utiles.Helper()

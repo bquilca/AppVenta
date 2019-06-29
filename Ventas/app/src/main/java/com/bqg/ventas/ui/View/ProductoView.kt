@@ -1,6 +1,6 @@
 package com.bqg.ventas.ui.View
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.bqg.ventas.Entidades.Producto
 import kotlinx.android.synthetic.main.item_producto_alert.view.*

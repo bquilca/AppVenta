@@ -2,23 +2,21 @@ package com.bqg.ventas.ui.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
-import android.support.v4.widget.DrawerLayout
-import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
-import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import com.bqg.ventas.Entidades.UsuarioEmpresa
 import com.bqg.ventas.R
 import com.bqg.ventas.Utiles.Prefs
 import com.bqg.ventas.ui.Fragment.HomeFragment
 import com.bqg.ventas.ui.Fragment.ListaPedidosFragment
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     var fragmentContenedor : FragmentManager?=null

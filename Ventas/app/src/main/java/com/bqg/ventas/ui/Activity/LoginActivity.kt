@@ -5,15 +5,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.telephony.TelephonyManager
 import android.view.View
 import com.bqg.ventas.R
-import android.support.v4.app.ActivityCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.bqg.ventas.Entidades.*
 import com.bqg.ventas.Utiles.Prefs
 import retrofit2.Call

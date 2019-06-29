@@ -1,14 +1,11 @@
 package com.bqg.ventas.ui.View
 
-import android.app.Activity
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.bqg.ventas.Entidades.Cliente
 import com.bqg.ventas.data.ClienteDia
 import kotlinx.android.synthetic.main.item_cliente.view.*
-import android.graphics.PorterDuff
-
 
 
 class ClienteView(view: View) : RecyclerView.ViewHolder(view) {
